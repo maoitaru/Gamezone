@@ -1,10 +1,342 @@
-/* Stili base vuoti in attesa del CSS */
-body {
-    font-family: sans-serif;
+/* --- 1. CONFIGURAZIONE GLOBALE & COLORI STEAM --- */
+* {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
-.error-text {
+
+body {
+    background-color: #171a21; /* Sfondo scuro tipico di Steam */
+    color: #c7d5e0;          /* Testo chiaro leggibile */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* --- 2. STILE PAGINA LOGIN (login.html) --- */
+.login-body {
+    background: linear-gradient(135deg, #1b2838 0%, #171a21 100%);
+    justify-content: center;
+    align-items: center;
+}
+
+.login-container {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+}
+
+.login-logo {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.login-logo h1 {
+    color: #66c0f4;
+    font-size: 2.2rem;
+    letter-spacing: 2px;
+}
+
+.login-logo p {
+    color: #8f98a0;
     font-size: 0.9rem;
     margin-top: 5px;
+}
+
+.login-box {
+    background-color: #2a475e; /* Pannello centrale blu scuro Steam */
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+.login-box h2 {
+    color: #ffffff;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    font-size: 0.85rem;
+    color: #8f98a0;
+    margin-bottom: 8px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px;
+    background-color: #1b2838;
+    border: 1px solid #323f4d;
+    border-radius: 4px;
+    color: #ffffff;
+    font-size: 1rem;
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: #66c0f4; /* Bordo azzurro quando clicchi sulla casella */
+}
+
+.btn-signin {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(to right, #47bfff 0%, #1a9fff 100%);
+    border: none;
+    border-radius: 4px;
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-top: 10px;
+}
+
+.btn-signin:hover {
+    background: linear-gradient(to right, #66c0f4 0%, #31b0ff 100%);
+}
+
+.form-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+    margin-bottom: 15px;
+}
+
+.form-options a {
+    color: #66c0f4;
+    text-decoration: none;
+}
+
+.form-options a:hover {
+    text-decoration: underline;
+}
+
+.register-prompt {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 0.9rem;
+}
+
+.register-prompt a {
+    color: #66c0f4;
+    text-decoration: none;
+}
+
+
+/* --- 3. STILE HEADER HOME (index.html) --- */
+header {
+    background-color: #171a21;
+    border-bottom: 2px solid #2a475e;
+    padding: 15px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header .logo h1 {
+    color: #66c0f4;
+    font-size: 1.5rem;
+}
+
+header nav ul {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+}
+
+header nav ul li a {
+    color: #c7d5e0;
+    text-decoration: none;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    transition: color 0.2s;
+}
+
+header nav ul li a:hover {
+    color: #66c0f4;
+}
+
+.user-panel {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+#welcome-user {
+    color: #66c0f4;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+#logout-btn {
+    background-color: #2a475e;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    transition: background 0.2s;
+}
+
+#logout-btn:hover {
+    background-color: #c0392b;
+    color: white !important;
+}
+
+
+/* --- 4. CONTENUTO STORE E GRIGLIA (index.html) --- */
+main {
+    flex: 1;
+    padding: 30px 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+/* Barra di ricerca */
+#search-filter-section {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    gap: 20px;
+}
+
+#search-bar {
+    flex: 1;
+    padding: 10px 15px;
+    background-color: #2a475e;
+    border: none;
+    border-radius: 4px;
+    color: white;
+}
+
+.filters {
+    display: flex;
+    gap: 10px;
+}
+
+.filters button {
+    padding: 8px 15px;
+    background-color: #2a475e;
+    border: none;
+    border-radius: 4px;
+    color: #c7d5e0;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.2s;
+}
+
+.filters button:hover {
+    background-color: #66c0f4;
+    color: #171a21;
+}
+
+/* Sezione In Evidenza */
+#featured-game {
+    margin-bottom: 40px;
+}
+
+#featured-game h2, #games-grid h2 {
+    color: #ffffff;
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.featured-banner {
+    background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1542751371-adc38448a05e?w=1000') center/cover;
+    height: 350px;
+    border-radius: 8px;
+    display: flex;
+    align-items: flex-end;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.featured-info h3 {
+    font-size: 2rem;
+    color: white;
+    margin-bottom: 10px;
+}
+
+.featured-info p {
+    color: #c7d5e0;
+    margin-bottom: 15px;
+    max-width: 600px;
+}
+
+.price {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #66c0f4;
+    margin-right: 20px;
+}
+
+.featured-info button, .game-card button {
+    padding: 10px 20px;
+    background-color: #5c7e10; /* Verde classico Steam per l'acquisto */
+    border: none;
+    border-radius: 4px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.featured-info button:hover, .game-card button:hover {
+    background-color: #709913;
+}
+
+/* Griglia dei giochi */
+.game-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.game-card {
+    background-color: #2a475e;
+    border-radius: 8px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: transform 0.2s;
+}
+
+.game-card:hover {
+    transform: translateY(-5px); /* Leggero effetto "sollevamento" al passaggio del mouse */
+}
+
+.game-thumbnail {
+    background-color: #1b2838;
+    height: 140px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #8f98a0;
+    font-size: 0.9rem;
+}
+
+.game-card h4 {
+    color: white;
+    font-size: 1.1rem;
+}
+
+/* --- 5. FOOTER --- */
+footer {
+    background-color: #171a21;
+    border-top: 1px solid #2a475e;
+    text-align: center;
+    padding: 20px;
+    color: #8f98a0;
+    font-size: 0.8rem;
 }
