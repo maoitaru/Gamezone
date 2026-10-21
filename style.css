@@ -1,0 +1,10 @@
+/* Stili base vuoti in attesa del CSS */
+body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+}
+.error-text {
+    font-size: 0.9rem;
+    margin-top: 5px;
+}

@@ -1,0 +1,22 @@
+{
+	"folders": [
+		{
+			"path": "../../javascript-amazon-project"
+		},
+		{
+			"path": "../Creating a website solo"
+		},
+		{
+			"path": "../restaurant-menu"
+		},
+		{
+			"path": "../cafe-menu"
+		},
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "gamesec"
+	}
+}

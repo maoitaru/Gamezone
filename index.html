@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameZone - Steam Style Hub</title>
+</head>
+<body>
+
+    <!-- 1. HEADER (STILE STEAM: LOGO, NAV, E STATO UTENTE) -->
+    <header>
+        <div class="logo">
+            <h1>⚡ GAMEZONE</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#store">Store</a></li>
+                <li><a href="#library">Library</a></li>
+                <li><a href="#community">Community</a></li>
+                <li><a href="#support">Support</a></li>
+            </ul>
+        </nav>
+        <!-- Area Utente (Qui piazzeremo il login in futuro) -->
+        <div class="user-panel">
+            <a href="#auth" class="login-btn">Sign In</a>
+        </div>
+    </header>
+
+    <!-- 2. BARRA DI RICCERCA E FILTRI -->
+    <section id="search-filter-section">
+        <input type="text" id="search-bar" placeholder="search the store...">
+        <div class="filters">
+            <button type="button">All Games</button>
+            <button type="button">Action</button>
+            <button type="button">RPG</button>
+            <button type="button">Indie</button>
+        </div>
+    </section>
+
+    <!-- 3. CONTENUTO PRINCIPALE (STORE & GIOCHI) -->
+    <main>
+        <!-- Vetrina in evidenza (Featured) -->
+        <section id="featured-game">
+            <h2>Featured & Recommended</h2>
+            <div class="featured-banner">
+                <div class="featured-info">
+                    <h3>Cyber Quest 2077</h3>
+                    <p>Experience the ultimate futuristic open-world RPG.</p>
+                    <span class="price">$59.99</span>
+                    <button type="button">Add to Cart</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Griglia dei giochi -->
+        <section id="games-grid">
+            <h2>Special Offers</h2>
+            <div class="game-list">
+                <article class="game-card">
+                    <div class="game-thumbnail">[ Image Placeholder ]</div>
+                    <h4>Pixel Dungeon</h4>
+                    <span class="price">$14.99</span>
+                    <button type="button">Buy Now</button>
+                </article>
+
+                <article class="game-card">
+                    <div class="game-thumbnail">[ Image Placeholder ]</div>
+                    <h4>Space Odyssey</h4>
+                    <span class="price">Free to Play</span>
+                    <button type="button">Play Game</button>
+                </article>
+            </div>
+        </section>
+
+        <!-- SEZIONE LOGIN (Nascosta o accessibile tramite menu in futuro) -->
+        <section id="auth-section">
+            <h2>Sign In to GameZone</h2>
+            <form id="login-form">
+                <div class="input-group">
+                    <label for="username">Sign In with Account Name</label>
+                    <input type="text" id="username" name="username" placeholder="Gamertag" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Password" required>
+                </div>
+
+                <button type="submit">Sign In</button>
+            </form>
+        </section>
+    </main>
+
+    <!-- 4. FOOTER -->
+    <footer>
+        <p>&copy; 2026 GameZone Corporation. All rights reserved. All trademarks are property of their respective owners.</p>
+    </footer>
+
+</body>
+</html>
