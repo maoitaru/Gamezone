@@ -8,7 +8,7 @@
 <body>
 
     <!-- 1. HEADER (STILE STEAM: LOGO, NAV, E STATO UTENTE) -->
-    <header>
+<header>
         <div class="logo">
             <h1>⚡ GAMEZONE</h1>
         </div>
@@ -20,9 +20,11 @@
                 <li><a href="#support">Support</a></li>
             </ul>
         </nav>
-        <!-- Area Utente (Qui piazzeremo il login in futuro) -->
         <div class="user-panel">
-            <a href="#auth" class="login-btn">Sign In</a>
+            <!-- Qui mostreremo il nome utente salvato tramite JS -->
+            <span id="welcome-user"></span>
+            <!-- Pulsante di Sign Out con l'ID corretto per il JavaScript -->
+            <a href="login.html" id="logout-btn" class="login-btn" style="margin-left: 15px; color: #ff4d4d; text-decoration: none; font-weight: bold;">Sign Out</a>
         </div>
     </header>
 
