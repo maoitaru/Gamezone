@@ -30,7 +30,7 @@
 
                 <div class="input-group">
                     <label for="password">Password</label>
-                <input type="password" id="password" name="password" placeholder="Password" required minlength="4" autocomplete="current-password">
+                <input type="password" id="password" name="password" placeholder="Password" required autocomplete="current-password">
                 </div>
 
                 <!-- Opzioni extra (es. Ricordami) -->
@@ -40,6 +40,8 @@
                     </label>
                     <a href="#forgot" class="forgot-link">Forgot password?</a>
                 </div>
+
+                <p id="error-message" style="margin-top: 10px; font-weight: bold;"></p>
 
                 <!-- Pulsante diInvio (per ora punta direttamente a index.html) -->
                 <button type="submit" class="btn-signin">Sign In</button>
@@ -58,6 +60,8 @@
     <footer>
         <p>&copy; 2026 GameZone Corporation. All rights reserved.</p>
     </footer>
+
+    <script src="script.js"></script>
 
 </body>
 </html>

@@ -7,39 +7,35 @@ document.addEventListener('DOMContentLoaded', function() {
         const passwordInput = document.getElementById('password');
         const errorMessage = document.getElementById('error-message');
 
-        loginForm.addEventListener('submit', function(event) {
+loginForm.addEventListener('submit', function(event) {
+            // Blocchiamo il comportamento standard del form
             event.preventDefault();
-            console.log("Form inviato con successo!"); // <-- Controlla se vedi questo in console
 
             const enteredUser = usernameInput.value.trim();
             const enteredPass = passwordInput.value.trim();
 
-            console.log("Utente:", enteredUser, "Password length:", enteredPass.length);
-
-            if (enteredUser !== "" && enteredPass.length >= 4) {
+            // CONTROLLO RIGIDO: Username E Password devono essere corretti entrambi
+            if (enteredUser === "maoitaru" && enteredPass === "26799") {
+                // Se tutto è corretto, salviamo e andiamo alla home
                 localStorage.setItem('gameZoneUser', enteredUser);
-                console.log("Dati salvati, tentiamo il redirect a index.html...");
-                
-                // Proviamo a forzare il reindirizzamento assoluto o relativo
-                window.location.href = './index.html';
+                window.location.href = 'index.html';
             } else {
-                errorMessage.textContent = 'Accesso negato: inserisci un gamertag valido e una password di almeno 4 caratteri.';
+                // Se qualcosa è sbagliato, mostriamo un messaggio di errore chiaro sulla pagina
+                errorMessage.textContent = 'Access Denied: Incorrect username or password!';
                 errorMessage.style.color = '#ff4d4d';
             }
         });
     }
-    // ... resto del codice ...
-});
 
-    // --- PARTE 2: PROTEZIONE E PERSONALIZZAZIONE HOME (Attivo su index.html) ---
+    // --- PARTE 2: CONTROLLO ACCESSO HOME (index.html) ---
     const welcomeUserSpan = document.getElementById('welcome-user');
     if (welcomeUserSpan) {
         const loggedUser = localStorage.getItem('gameZoneUser');
         
-        // Controllo di sicurezza: se l'utente NON è loggato, viene rispedito al login
         if (loggedUser) {
             welcomeUserSpan.textContent = `Logged in as: ${loggedUser}`;
         } else {
+            // Se non c'è sessione attiva, rimanda al login
             window.location.href = 'login.html';
         }
     }
@@ -49,9 +45,8 @@ document.addEventListener('DOMContentLoaded', function() {
     if (logoutBtn) {
         logoutBtn.addEventListener('click', function(event) {
             event.preventDefault();
-            // Puliamo la memoria del browser
             localStorage.removeItem('gameZoneUser');
-            // Torniamo alla pagina di login
             window.location.href = 'login.html';
         });
     }
+});
