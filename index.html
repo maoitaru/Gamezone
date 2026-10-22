@@ -29,22 +29,24 @@
         </div>
     </header>
 
-    <!-- 2. BARRA DI RICCERCA E FILTRI -->
+<!-- 2. BARRA DI RICERCA E FILTRI -->
     <section id="search-filter-section">
         <input type="text" id="search-bar" placeholder="search the store...">
         <div class="filters">
-            <button type="button">All Games</button>
-            <button type="button">Action</button>
-            <button type="button">RPG</button>
-            <button type="button">Indie</button>
+            <button type="button" class="filter-btn" data-genre="all">All Games</button>
+            <button type="button" class="filter-btn" data-genre="Action">Action</button>
+            <button type="button" class="filter-btn" data-genre="RPG">RPG</button>
+            <button type="button" class="filter-btn" data-genre="Indie">Indie</button>
         </div>
     </section>
 
     <!-- 3. CONTENUTO PRINCIPALE (STORE & GIOCHI) -->
 <!-- 3. CONTENUTO PRINCIPALE -->
+<!-- 3. CONTENUTO PRINCIPALE -->
+<!-- 3. CONTENUTO PRINCIPALE -->
     <main>
         
-        <!-- VISTA STORE (Visibile di default) -->
+        <!-- VISTA STORE -->
         <div id="store-view" class="view-section">
             
             <!-- Barra di ricerca e filtri -->
@@ -73,9 +75,9 @@
 
             <!-- Griglia dei giochi generati -->
             <section id="games-grid">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <div class="store-section-header">
                     <h2>Special Offers & Games Store</h2>
-                    <button id="generate-more-btn" type="button" style="padding: 8px 16px; background-color: #66c0f4; border: none; border-radius: 4px; color: #171a21; font-weight: bold; cursor: pointer;">
+                    <button id="generate-more-btn" type="button" class="action-btn">
                         🔄 Genera Nuovi Giochi
                     </button>
                 </div>
@@ -84,15 +86,59 @@
         </div>
 
 
-        <!-- VISTA LIBRARY (Inizialmente nascosta) -->
+        <!-- VISTA LIBRARY -->
         <div id="library-view" class="view-section" style="display: none;">
             <section>
                 <h2>My Game Library</h2>
-                <p style="color: #8f98a0; margin-bottom: 20px;">Here are all the games you own and can play anytime.</p>
+                <p class="section-subtitle">Here are all the games you own and can play anytime.</p>
+                <div class="game-list" id="library-game-list"></div>
+            </section>
+        </div>
+
+
+        <!-- VISTA COMMUNITY -->
+        <div id="community-view" class="view-section" style="display: none;">
+            <section>
+                <h2>GameZone Community Hub</h2>
+                <p class="section-subtitle">Share your thoughts, screenshots, and chat with other players.</p>
                 
-                <!-- Griglia dei giochi posseduti -->
-                <div class="game-list" id="library-game-list">
-                    <!-- JavaScript riempirà questa lista con i giochi acquistati -->
+                <div class="community-box">
+                    <h3>Create a Post</h3>
+                    <textarea id="community-post-input" placeholder="What's on your mind, gamer?"></textarea>
+                    <button id="post-submit-btn" type="button" class="action-btn">Post</button>
+                </div>
+
+                <div id="community-feed"></div>
+            </section>
+        </div>
+
+
+        <!-- VISTA SUPPORT -->
+        <div id="support-view" class="view-section" style="display: none;">
+            <section class="support-wrapper">
+                <h2>GameZone Customer Support</h2>
+                <p class="section-subtitle">Having trouble with a game, payment, or your account? Submit a ticket below.</p>
+                
+                <div class="support-box">
+                    <form id="support-form">
+                        <div class="input-group">
+                            <label for="support-issue">Issue Type</label>
+                            <select id="support-issue">
+                                <option>Game won't launch / Crash</option>
+                                <option>Payment / Purchase problem</option>
+                                <option>Account & Login issue</option>
+                                <option>Other inquiry</option>
+                            </select>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="support-message">Describe your problem</label>
+                            <textarea id="support-message" placeholder="Provide as many details as possible..." required></textarea>
+                        </div>
+
+                        <button type="submit" class="support-submit-btn">Submit Support Ticket</button>
+                    </form>
+                    <p id="support-success-msg"></p>
                 </div>
             </section>
         </div>
