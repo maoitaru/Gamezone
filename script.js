@@ -1,4 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
+
+        let currentStoreGames = [];
     
     // --- PARTE 1: GESTIONE LOGIN ---
     const loginForm = document.getElementById('login-form');
@@ -182,8 +184,6 @@ document.addEventListener('DOMContentLoaded', function() {
         return `$${price}`;
     }
 
-    let currentStoreGames = [];
-
     function renderStoreGames(gamesToRender) {
         if (!dynamicGameList) return;
         dynamicGameList.innerHTML = "";
@@ -230,7 +230,7 @@ document.addEventListener('DOMContentLoaded', function() {
         renderStoreGames(currentStoreGames);
     }
 
-    const filterButtons = document.querySelectorAll('.filter-btn');
+   const filterButtons = document.querySelectorAll('.filter-btn');
     if (filterButtons.length > 0) {
         filterButtons.forEach(button => {
             button.addEventListener('click', function() {
