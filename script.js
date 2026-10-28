@@ -2,6 +2,24 @@ document.addEventListener('DOMContentLoaded', function() {
 
     let currentStoreGames = [];
 
+    // --- SISTEMA NOTIFICHE TOAST ---
+    function showToast(message, icon = "🎮") {
+        let existingToast = document.getElementById('toast-notification');
+        if (existingToast) existingToast.remove();
+
+        const toast = document.createElement('div');
+        toast.id = 'toast-notification';
+        toast.innerHTML = `<span class="toast-icon">${icon}</span> <span>${message}</span>`;
+        document.body.appendChild(toast);
+
+        setTimeout(() => toast.classList.add('show'), 10);
+
+        setTimeout(() => {
+            toast.classList.remove('show');
+            setTimeout(() => toast.remove(), 300);
+        }, 4000);
+    }
+
     // --- PARTE 1: GESTIONE LOGIN ---
     const loginForm = document.getElementById('login-form');
     if (loginForm) {
@@ -106,7 +124,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             libraryContainer.innerHTML = "";
 
-if (library.length === 0) {
+            if (library.length === 0) {
                 libraryContainer.innerHTML = `<p style="color: #8f98a0;">Your library is empty. Go to the Store and buy or claim some games!</p>`;
                 return;
             }
@@ -151,7 +169,7 @@ if (library.length === 0) {
             });
 
             const data = await res.json();
-            alert(data.message);
+            showToast(data.message, "🛒");
         } catch (err) {
             alert("Errore durante l'aggiunta alla libreria.");
         }
@@ -161,26 +179,119 @@ if (library.length === 0) {
     const storeLink = document.querySelector('nav a[href="#store"]');
     const libraryLink = document.querySelector('nav a[href="#library"]');
     const communityLink = document.querySelector('nav a[href="#community"]');
+    const profileLink = document.querySelector('nav a[href="#profile"]');
+    const adminLink = document.querySelector('nav a[href="#admin"]');
     const supportLink = document.querySelector('nav a[href="#support"]');
 
     const storeView = document.getElementById('store-view');
     const libraryView = document.getElementById('library-view');
     const communityView = document.getElementById('community-view');
+    const profileView = document.getElementById('profile-view');
+    const adminView = document.getElementById('admin-view');
     const supportView = document.getElementById('support-view');
 
     function hideAllViews() {
         if (storeView) storeView.style.display = 'none';
         if (libraryView) libraryView.style.display = 'none';
         if (communityView) communityView.style.display = 'none';
+        if (profileView) profileView.style.display = 'none';
+        if (adminView) adminView.style.display = 'none';
         if (supportView) supportView.style.display = 'none';
     }
 
     if (storeLink) storeLink.addEventListener('click', (e) => { e.preventDefault(); hideAllViews(); storeView.style.display = 'block'; });
     if (libraryLink) libraryLink.addEventListener('click', (e) => { e.preventDefault(); hideAllViews(); libraryView.style.display = 'block'; renderLibrary(); });
     if (communityLink) communityLink.addEventListener('click', (e) => { e.preventDefault(); hideAllViews(); communityView.style.display = 'block'; renderCommunityPosts(); });
+    if (profileLink) {
+        profileLink.addEventListener('click', async (e) => {
+            e.preventDefault();
+            hideAllViews();
+            profileView.style.display = 'block';
+
+            // Aggiorna nome utente
+            document.getElementById('profile-username').textContent = loggedUser || "Guest";
+
+            // Conta i giochi in libreria dal backend
+            try {
+                const libRes = await fetch(`/api/library/${loggedUser}`);
+                const library = await libRes.json();
+                document.getElementById('profile-games-count').textContent = library.length;
+            } catch (err) {
+                console.error("Errore caricamento giochi profilo:", err);
+            }
+
+            // Conta i post della community scritti dall'utente
+            try {
+                const postRes = await fetch('/api/posts');
+                const posts = await postRes.json();
+                const userPosts = posts.filter(p => p.author === loggedUser);
+                document.getElementById('profile-posts-count').textContent = userPosts.length;
+            } catch (err) {
+                console.error("Errore caricamento post profilo:", err);
+            }
+        });
+    }
+    if (adminLink) {
+        adminLink.addEventListener('click', async (e) => {
+            e.preventDefault();
+            hideAllViews();
+            adminView.style.display = 'block';
+
+            const ticketsContainer = document.getElementById('admin-tickets-container');
+            ticketsContainer.innerHTML = `<p style="color: #8f98a0;">Loading support tickets...</p>`;
+
+            try {
+                const res = await fetch('/api/support/tickets');
+                const tickets = await res.json();
+
+                ticketsContainer.innerHTML = "";
+
+                if (tickets.length === 0) {
+                    ticketsContainer.innerHTML = `<p style="color: #8f98a0;">No support tickets found. Everything is running smoothly!</p>`;
+                    return;
+                }
+
+                // Creiamo una tabella per mostrare i ticket in modo ordinato
+                const table = document.createElement('table');
+                table.style.cssText = "width: 100%; border-collapse: collapse; color: #c7d5e0; font-size: 0.9rem;";
+                
+                table.innerHTML = `
+                    <thead>
+                        <tr style="border-bottom: 1px solid #2a475e; text-align: left; color: #66c0f4;">
+                            <th style="padding: 10px;">ID</th>
+                            <th style="padding: 10px;">User</th>
+                            <th style="padding: 10px;">Issue Type</th>
+                            <th style="padding: 10px;">Message</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tickets-table-body"></tbody>
+                `;
+
+                const tbody = table.querySelector('#tickets-table-body');
+
+                tickets.forEach(ticket => {
+                    const tr = document.createElement('tr');
+                    tr.style.borderBottom = "1px solid #1b2838";
+                    tr.innerHTML = `
+                        <td style="padding: 10px; color: #8f98a0; font-family: monospace;">${ticket.id || 'N/A'}</td>
+                        <td style="padding: 10px; color: #66c0f4; font-weight: bold;">${ticket.username}</td>
+                        <td style="padding: 10px;">${ticket.issueType}</td>
+                        <td style="padding: 10px; color: #c7d5e0; max-width: 300px; word-break: break-word;">${ticket.message}</td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+
+                ticketsContainer.appendChild(table);
+
+            } catch (err) {
+                console.error("Errore caricamento ticket:", err);
+                ticketsContainer.innerHTML = `<p style="color: #ff4d4d;">Error loading support tickets from server.</p>`;
+            }
+        });
+    }
     if (supportLink) supportLink.addEventListener('click', (e) => { e.preventDefault(); hideAllViews(); supportView.style.display = 'block'; });
 
-// --- GENERATORE STORE & FILTRI ---
+    // --- GENERATORE STORE & FILTRI ---
     const dynamicGameList = document.getElementById('dynamic-game-list');
     const generateBtn = document.getElementById('generate-more-btn');
 
@@ -255,21 +366,19 @@ if (library.length === 0) {
                 renderStoreGames(filtered);
             }
         });
-        // --- GESTIONE BARRA DI RICERCA IN TEMPO REALE ---
+    });
+
+    // --- GESTIONE BARRA DI RICERCA IN TEMPO REALE ---
     const searchBar = document.getElementById('search-bar');
     if (searchBar) {
         searchBar.addEventListener('input', (e) => {
             const searchTerm = e.target.value.toLowerCase().trim();
-
-            // Filtra i giochi dello store in base a ciò che scrivi nel titolo
             const filtered = currentStoreGames.filter(game => 
                 game.title.toLowerCase().includes(searchTerm)
             );
-
             renderStoreGames(filtered);
         });
     }
-    });
 
     // --- COMMUNITY HUB (FETCH BACKEND) ---
     const postSubmitBtn = document.getElementById('post-submit-btn');
@@ -283,16 +392,67 @@ if (library.length === 0) {
             const posts = await res.json();
 
             communityFeed.innerHTML = "";
+
+            if (posts.length === 0) {
+                communityFeed.innerHTML = `<p style="color: #8f98a0; padding: 20px;">No posts yet. Be the first to publish something!</p>`;
+                return;
+            }
+
             posts.forEach(post => {
+                const isAuthor = (loggedUser && post.author === loggedUser);
                 const postCard = document.createElement('div');
                 postCard.className = 'post-card';
+                postCard.style.cssText = "background-color: #171a21; border: 1px solid #2a475e; padding: 15px; border-radius: 4px; margin-bottom: 15px;";
+                
                 postCard.innerHTML = `
-                    <div class="post-header">
-                        <strong class="post-author">${post.author}</strong>
-                        <span class="post-date">${post.date}</span>
+                    <div class="post-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                        <div>
+                            <strong class="post-author" style="color: #66c0f4;">${post.author}</strong>
+                            <span class="post-date" style="font-size: 0.8rem; color: #8f98a0; margin-left: 10px;">${post.date}</span>
+                        </div>
+                        ${isAuthor ? `<button class="delete-post-btn" style="background: transparent; border: none; color: #ff4d4d; cursor: pointer; font-size: 1rem;" title="Delete Post">🗑️</button>` : ''}
                     </div>
-                    <p class="post-text">${post.text}</p>
+                    <p class="post-text" style="color: #c7d5e0; margin-bottom: 12px; line-height: 1.4;">${post.text}</p>
+                    <div class="post-actions">
+                        <button class="like-btn" style="background-color: #2a475e; border: 1px solid #66c0f4; color: #66c0f4; padding: 5px 12px; border-radius: 4px; cursor: pointer; font-weight: bold;">
+                            👍 Like (<span class="like-count">${post.likes || 0}</span>)
+                        </button>
+                    </div>
                 `;
+
+                // Gestore Like
+                postCard.querySelector('.like-btn').addEventListener('click', async () => {
+                    const response = await fetch('/api/posts/like', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ postId: post.id })
+                    });
+                    const data = await response.json();
+                    if (data.success) {
+                        postCard.querySelector('.like-count').textContent = data.likes;
+                    }
+                });
+
+                // Gestore Elimina (se presente)
+                const deleteBtn = postCard.querySelector('.delete-post-btn');
+                if (deleteBtn) {
+                    deleteBtn.addEventListener('click', async () => {
+                        if (confirm("Are you sure you want to delete this post?")) {
+                            const response = await fetch('/api/posts/delete', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ postId: post.id, username: loggedUser })
+                            });
+                            const data = await response.json();
+                            if (data.success) {
+                                renderCommunityPosts();
+                            } else {
+                                alert(data.message);
+                            }
+                        }
+                    });
+                }
+
                 communityFeed.appendChild(postCard);
             });
         } catch (err) {
@@ -300,10 +460,10 @@ if (library.length === 0) {
         }
     }
 
-    if (postSubmitBtn) {
+if (postSubmitBtn) {
         postSubmitBtn.addEventListener('click', async () => {
             const text = communityPostInput.value.trim();
-            if (!text) return alert("Scrivi qualcosa prima di pubblicare!");
+            if (!text) return alert("Write something before posting!");
 
             try {
                 const res = await fetch('/api/posts', {
@@ -314,10 +474,11 @@ if (library.length === 0) {
 
                 if (res.ok) {
                     communityPostInput.value = "";
+                    showToast("Post published successfully!", "💬"); // <-- AGGIUNGI QUESTO
                     renderCommunityPosts();
                 }
             } catch (err) {
-                alert("Errore nell'invio del post.");
+                alert("Error sending post.");
             }
         });
     }
@@ -326,7 +487,7 @@ if (library.length === 0) {
     const supportForm = document.getElementById('support-form');
     const supportSuccessMsg = document.getElementById('support-success-msg');
 
-    if (supportForm) {
+if (supportForm) {
         supportForm.addEventListener('submit', async function(e) {
             e.preventDefault();
             const issueType = document.getElementById('support-issue').value;
@@ -347,20 +508,12 @@ if (library.length === 0) {
                     const data = await response.json();
 
                     if (data.success) {
-                        supportSuccessMsg.textContent = `Ticket (${data.ticketId}) submitted successfully! Our support team will review your "${issueType}" request shortly.`;
-                        supportSuccessMsg.style.display = 'block';
-                        supportSuccessMsg.style.color = '#66c0f4';
+                        showToast(`Ticket (${data.ticketId}) submitted successfully!`, "🛠️"); // <-- AGGIUNGI QUESTO
                         supportForm.reset();
-
-                        setTimeout(() => {
-                            supportSuccessMsg.style.display = 'none';
-                        }, 5000);
                     }
                 } catch (error) {
                     console.error("Error submitting support ticket:", error);
-                    supportSuccessMsg.textContent = 'Error sending ticket to server. Please try again.';
-                    supportSuccessMsg.style.color = '#ff4d4d';
-                    supportSuccessMsg.style.display = 'block';
+                    alert("Error sending ticket to server.");
                 }
             }
         });

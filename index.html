@@ -18,6 +18,8 @@
                 <li><a href="#store">Store</a></li>
                 <li><a href="#library">Library</a></li>
                 <li><a href="#community">Community</a></li>
+                <li><a href="#profile">Profile</a></li>
+                <li><a href="#admin">Admin</a></li>
                 <li><a href="#support">Support</a></li>
             </ul>
         </nav>
@@ -103,6 +105,42 @@
             </section>
         </div>
 
+        <!-- VISTA PROFILE -->
+        <div id="profile-view" class="view-section" style="display: none;">
+            <section class="profile-wrapper">
+                <h2>User Profile</h2>
+                <p class="section-subtitle">Manage your account details and gaming stats.</p>
+                
+                <div class="profile-card" style="background-color: #171a21; border: 1px solid #2a475e; padding: 20px; border-radius: 6px; max-width: 500px;">
+                    <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px;">
+                        <div style="width: 60px; height: 60px; background-color: #2a475e; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.8rem;">👤</div>
+                        <div>
+                            <h3 id="profile-username" style="color: #66c0f4; margin: 0;">Gamer</h3>
+                            <p style="color: #8f98a0; font-size: 0.85rem; margin: 4px 0 0 0;">Member of GameZone</p>
+                        </div>
+                    </div>
+                    
+                    <div style="border-top: 1px solid #2a475e; padding-top: 15px; display: flex; flex-direction: column; gap: 10px;">
+                        <p style="color: #c7d5e0; margin: 0;">🎮 Games in Library: <strong id="profile-games-count" style="color: #66c0f4;">0</strong></p>
+                        <p style="color: #c7d5e0; margin: 0;">💬 Community Posts: <strong id="profile-posts-count" style="color: #66c0f4;">0</strong></p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- VISTA ADMIN (TICKETS DASHBOARD) -->
+        <div id="admin-view" class="view-section" style="display: none;">
+            <section class="admin-wrapper">
+                <h2>Admin Dashboard - Support Tickets</h2>
+                <p class="section-subtitle">Manage and review support tickets submitted by users.</p>
+                
+                <div style="background-color: #171a21; border: 1px solid #2a475e; padding: 20px; border-radius: 6px;">
+                    <div id="admin-tickets-container">
+                        <p style="color: #8f98a0;">Loading tickets...</p>
+                    </div>
+                </div>
+            </section>
+        </div>
 
         <!-- VISTA SUPPORT -->
         <div id="support-view" class="view-section" style="display: none;">

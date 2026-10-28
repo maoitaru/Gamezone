@@ -110,7 +110,7 @@ app.post('/api/library/remove', (req, res) => {
     res.json({ success: true });
 });
 
-// --- API COMMUNITY HUB ---
+// --- API COMMUNITY HUB AGGIORNATE ---
 app.get('/api/posts', (req, res) => {
     res.json(getPosts());
 });
@@ -121,14 +121,49 @@ app.post('/api/posts', (req, res) => {
 
     const posts = getPosts();
     const newPost = {
+        id: "post-" + Date.now(),
         author: author || "Gamer",
         text: text.trim(),
-        date: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + " - Today"
+        date: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + " - Today",
+        likes: 0
     };
 
     posts.unshift(newPost);
     savePosts(posts);
     res.json({ success: true, post: newPost });
+});
+
+// Aggiungi un Like a un post
+app.post('/api/posts/like', (req, res) => {
+    const { postId } = req.body;
+    const posts = getPosts();
+    const post = posts.find(p => p.id === postId);
+
+    if (post) {
+        post.likes = (post.likes || 0) + 1;
+        savePosts(posts);
+        return res.json({ success: true, likes: post.likes });
+    }
+    res.status(404).json({ success: false, message: 'Post not found' });
+});
+
+// Elimina un post
+app.post('/api/posts/delete', (req, res) => {
+    const { postId, username } = req.body;
+    let posts = getPosts();
+    const post = posts.find(p => p.id === postId);
+
+    if (post) {
+        // Solo l'autore del post (o l'admin/Team) può eliminarlo
+        if (post.author === username || post.author === "GameZone Team") {
+            posts = posts.filter(p => p.id !== postId);
+            savePosts(posts);
+            return res.json({ success: true });
+        } else {
+            return res.status(403).json({ success: false, message: 'You can only delete your own posts!' });
+        }
+    }
+    res.status(404).json({ success: false, message: 'Post not found' });
 });
 
 // --- API CUSTOMER SUPPORT ---
@@ -157,4 +192,20 @@ app.post('/api/support', (req, res) => {
 
 app.listen(PORT, () => {
     console.log(`🚀 Server Full-Stack GameZone attivo su http://localhost:${PORT}`);
+});
+
+// --- API SUPPORTO (ADMIN) ---
+app.get('/api/support/tickets', (req, res) => {
+    // Supponendo che tu abbia una funzione o un modo per leggere support.json
+    if (typeof getSupportTickets === 'function') {
+        res.json(getSupportTickets());
+    } else {
+        // Fallback per leggere direttamente il file se non usi una funzione helper dedicata
+        try {
+            const data = fs.readFileSync(path.join(__dirname, 'support.json'), 'utf8');
+            res.json(JSON.parse(data));
+        } catch (err) {
+            res.json([]);
+        }
+    }
 });

@@ -45,6 +45,42 @@
         "genre": "Action",
         "price": "Free to Play",
         "image": "https://images.unsplash.com/photo-1612287230202-1ff1d85d1bdf?w=400"
+      },
+      {
+        "title": "Pixel Chronicles 2",
+        "genre": "Action",
+        "price": "$52.28",
+        "image": "https://images.unsplash.com/photo-1612287230202-1ff1d85d1bdf?w=400"
+      },
+      {
+        "title": "Galactic Chronicles 1",
+        "genre": "Simulator",
+        "price": "$47.71",
+        "image": "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=400"
+      },
+      {
+        "title": "Star Odyssey 1",
+        "genre": "RPG",
+        "price": "$32.01",
+        "image": "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=400"
+      },
+      {
+        "title": "Shadow Warfare 1",
+        "genre": "Sci-Fi",
+        "price": "$44.98",
+        "image": "https://images.unsplash.com/photo-1612287230202-1ff1d85d1bdf?w=400"
+      },
+      {
+        "title": "Super Empire 2",
+        "genre": "Strategy",
+        "price": "$24.79",
+        "image": "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=400"
+      },
+      {
+        "title": "Cyber Runner 2",
+        "genre": "Sci-Fi",
+        "price": "$52.63",
+        "image": "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=400"
       }
     ]
   }
