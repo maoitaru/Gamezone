@@ -1,16 +1,160 @@
 const express = require('express');
+const path = require('path');
+const fs = require('fs');
+
 const app = express();
 const PORT = 3000;
 
-// Middleware per permettere al server di leggere i dati in formato JSON
-app.use(express.json());
+const USERS_FILE = path.join(__dirname, 'users.json');
+const POSTS_FILE = path.join(__dirname, 'posts.json');
+const SUPPORT_FILE = path.join(__dirname, 'support.json');
 
-// Rotta di prova (Home del server)
-app.get('/', (req, res) => {
-    res.send('🚀 Il server di GameZone è attivo e funzionante!');
+app.use(express.json());
+app.use(express.static(__dirname));
+
+// --- FUNZIONI DI SUPPORTO PER FILE JSON ---
+function getUsers() {
+    if (!fs.existsSync(USERS_FILE)) fs.writeFileSync(USERS_FILE, '[]', 'utf8');
+    return JSON.parse(fs.readFileSync(USERS_FILE, 'utf8') || '[]');
+}
+
+function saveUsers(users) {
+    fs.writeFileSync(USERS_FILE, JSON.stringify(users, null, 2), 'utf8');
+}
+
+function getPosts() {
+    if (!fs.existsSync(POSTS_FILE)) fs.writeFileSync(POSTS_FILE, '[]', 'utf8');
+    return JSON.parse(fs.readFileSync(POSTS_FILE, 'utf8') || '[]');
+}
+
+function savePosts(posts) {
+    fs.writeFileSync(POSTS_FILE, JSON.stringify(posts, null, 2), 'utf8');
+}
+
+function getSupportTickets() {
+    if (!fs.existsSync(SUPPORT_FILE)) fs.writeFileSync(SUPPORT_FILE, '[]', 'utf8');
+    return JSON.parse(fs.readFileSync(SUPPORT_FILE, 'utf8') || '[]');
+}
+
+function saveSupportTickets(tickets) {
+    fs.writeFileSync(SUPPORT_FILE, JSON.stringify(tickets, null, 2), 'utf8');
+}
+
+// --- ROTTE PAGINE STATICHE ---
+app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'index.html')));
+app.get('/login.html', (req, res) => res.sendFile(path.join(__dirname, 'login.html')));
+app.get('/register.html', (req, res) => res.sendFile(path.join(__dirname, 'register.html')));
+
+// --- AUTENTICAZIONE ---
+app.post('/api/register', (req, res) => {
+    const { username, password } = req.body;
+    if (!username || !password) return res.status(400).json({ success: false, message: 'Dati incompleti!' });
+
+    const users = getUsers();
+    if (users.some(u => u.username.toLowerCase() === username.toLowerCase())) {
+        return res.status(400).json({ success: false, message: 'Username già esistente!' });
+    }
+
+    users.push({ username, password, library: [] });
+    saveUsers(users);
+    res.json({ success: true });
 });
 
-// Avviamo il server sulla porta 3000
+app.post('/api/login', (req, res) => {
+    const { username, password } = req.body;
+    const users = getUsers();
+    const user = users.find(u => u.username === username && u.password === password);
+
+    if (user) {
+        res.json({ success: true, username: user.username });
+    } else {
+        res.status(401).json({ success: false, message: 'Credenziali errate!' });
+    }
+});
+
+// --- API LIBRERIA GIOCHI ---
+app.get('/api/library/:username', (req, res) => {
+    const users = getUsers();
+    const user = users.find(u => u.username === req.params.username);
+    res.json(user ? (user.library || []) : []);
+});
+
+app.post('/api/library/add', (req, res) => {
+    const { username, game } = req.body;
+    const users = getUsers();
+    const user = users.find(u => u.username === username);
+
+    if (!user) return res.status(404).json({ success: false, message: 'Utente non trovato' });
+
+    if (!user.library) user.library = [];
+    const exists = user.library.some(g => g.title === game.title);
+
+    if (exists) {
+        return res.json({ success: false, message: 'You already own this game!' });
+    }
+
+    user.library.push(game);
+    saveUsers(users);
+    res.json({ success: true, message: `"${game.title}" added to your Library!` });
+});
+
+app.post('/api/library/remove', (req, res) => {
+    const { username, gameTitle } = req.body;
+    const users = getUsers();
+    const user = users.find(u => u.username === username);
+
+    if (user && user.library) {
+        user.library = user.library.filter(g => g.title !== gameTitle);
+        saveUsers(users);
+    }
+    res.json({ success: true });
+});
+
+// --- API COMMUNITY HUB ---
+app.get('/api/posts', (req, res) => {
+    res.json(getPosts());
+});
+
+app.post('/api/posts', (req, res) => {
+    const { author, text } = req.body;
+    if (!text || !text.trim()) return res.status(400).json({ success: false });
+
+    const posts = getPosts();
+    const newPost = {
+        author: author || "Gamer",
+        text: text.trim(),
+        date: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + " - Today"
+    };
+
+    posts.unshift(newPost);
+    savePosts(posts);
+    res.json({ success: true, post: newPost });
+});
+
+// --- API CUSTOMER SUPPORT ---
+app.post('/api/support', (req, res) => {
+    const { username, issueType, message } = req.body;
+
+    if (!message || !message.trim()) {
+        return res.status(400).json({ success: false, message: 'Message cannot be empty.' });
+    }
+
+    const tickets = getSupportTickets();
+    const newTicket = {
+        ticketId: "TICK-" + Date.now().toString().slice(-5),
+        username: username || "Guest",
+        issueType: issueType,
+        message: message.trim(),
+        date: new Date().toISOString()
+    };
+
+    tickets.push(newTicket);
+    saveSupportTickets(tickets);
+
+    console.log(`📩 Nuovo ticket di supporto salvato: ${newTicket.ticketId}`);
+    res.json({ success: true, ticketId: newTicket.ticketId });
+});
+
 app.listen(PORT, () => {
-    console.log(`Server in ascolto sulla porta http://localhost:${PORT}`);
+    console.log(`🚀 Server Full-Stack GameZone attivo su http://localhost:${PORT}`);
 });

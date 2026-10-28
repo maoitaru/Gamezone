@@ -23,8 +23,9 @@
         </nav>
         <div class="user-panel">
             <span id="welcome-user"></span>
-            <a href="login.html" id="logout-btn" class="login-btn" style="margin-left: 15px; color: #ff4d4d; text-decoration: none; font-weight: bold;">Sign Out</a>
-        </div>
+<!-- Sostituisci la riga 25 di index.html con questa: -->
+<a href="/login.html" id="logout-btn" class="login-btn" style="margin-left: 15px; color: #ff4d4d; text-decoration: none; font-weight: bold;">Sign Out</a>
+    </div>
     </header>
 
     <!-- 2. CONTENUTO PRINCIPALE -->
@@ -34,10 +35,11 @@
         <div id="store-view" class="view-section">
             
             <!-- Barra di ricerca e filtri (UNICI E CORRETTI) -->
+<!-- Barra di ricerca e filtri -->
             <section id="search-filter-section">
                 <input type="text" id="search-bar" placeholder="search the store...">
                 <div class="filters">
-                    <button type="button" class="filter-btn" data-genre="all">All Games</button>
+                    <button type="button" class="filter-btn active" data-genre="All">All Games</button>
                     <button type="button" class="filter-btn" data-genre="Action">Action</button>
                     <button type="button" class="filter-btn" data-genre="RPG">RPG</button>
                     <button type="button" class="filter-btn" data-genre="Indie">Indie</button>

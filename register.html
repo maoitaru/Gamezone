@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameZone - Create Account</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="login-body">
+
+    <main class="login-container">
+        <div class="login-logo">
+            <h1>⚡ GAMEZONE</h1>
+            <p>Join the Community & Start Playing</p>
+        </div>
+
+        <div class="login-box">
+            <h2>Create an Account</h2>
+
+            <form id="register-form">
+                <div class="input-group">
+                    <label for="new-username">Choose a Username</label>
+                    <input type="text" id="new-username" placeholder="Gamertag" required autocomplete="username">
+                </div>
+
+                <div class="input-group">
+                    <label for="new-password">Password</label>
+                    <input type="password" id="new-password" placeholder="Password" required autocomplete="new-password">
+                </div>
+
+                <p id="register-error-message" style="margin-top: 10px; font-weight: bold;"></p>
+
+                <button type="submit" class="btn-signin">Register</button>
+            </form>
+
+            <div class="register-prompt">
+                <p>Already have an account? <a href="login.html">Sign In</a></p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 GameZone Corporation. All rights reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
