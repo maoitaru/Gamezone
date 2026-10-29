@@ -443,14 +443,11 @@ document.addEventListener('DOMContentLoaded', function() {
     if (dynamicGameList) generateRandomGames(12);
     if (generateBtn) generateBtn.addEventListener('click', () => generateRandomGames(12));
 
-    // --- GESTIONE CLICK FILTRI ---
-    const filterButtons = document.querySelectorAll('.filter-btn');
-    filterButtons.forEach(button => {
-        button.addEventListener('click', (e) => {
-            filterButtons.forEach(btn => btn.classList.remove('active'));
-            e.target.classList.add('active');
-
-            const selectedGenre = e.target.getAttribute('data-genre');
+// --- GESTIONE FILTRO GENERI CON SELECT A TENDINA ---
+    const genreSelect = document.getElementById('genre-select');
+    if (genreSelect) {
+        genreSelect.addEventListener('change', (e) => {
+            const selectedGenre = e.target.value;
 
             if (selectedGenre === 'All' || selectedGenre === 'all') {
                 renderStoreGames(currentStoreGames);
@@ -459,7 +456,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 renderStoreGames(filtered);
             }
         });
-    });
+    }
 
     // --- GESTIONE BARRA DI RICERCA IN TEMPO REALE ---
     const searchBar = document.getElementById('search-bar');
