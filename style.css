@@ -7,8 +7,8 @@
 }
 
 body {
-    background-color: #171a21; /* Sfondo scuro tipico di Steam */
-    color: #c7d5e0;          /* Testo chiaro leggibile */
+    background-color: #171a21;
+    color: #c7d5e0;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -45,7 +45,7 @@ body {
 }
 
 .login-box {
-    background-color: #2a475e; /* Pannello centrale blu scuro Steam */
+    background-color: #2a475e;
     padding: 30px;
     border-radius: 8px;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
@@ -80,7 +80,7 @@ body {
 
 .input-group input:focus {
     outline: none;
-    border-color: #66c0f4; /* Bordo azzurro quando clicchi sulla casella */
+    border-color: #66c0f4;
 }
 
 .btn-signin {
@@ -128,7 +128,6 @@ body {
     color: #66c0f4;
     text-decoration: none;
 }
-
 
 /* --- 3. STILE HEADER HOME (index.html) --- */
 header {
@@ -189,8 +188,7 @@ header nav ul li a:hover {
     color: white !important;
 }
 
-
-/* --- 4. CONTENUTO STORE E GRIGLIA (index.html) --- */
+/* --- 4. MAIN & STORE --- */
 main {
     flex: 1;
     padding: 30px 40px;
@@ -242,7 +240,7 @@ main {
     cursor: pointer;
 }
 
-/* Sezione In Evidenza */
+/* Featured & Store Grid */
 #featured-game {
     margin-bottom: 40px;
 }
@@ -286,7 +284,7 @@ main {
 
 .featured-info button, .game-card button {
     padding: 10px 20px;
-    background-color: #5c7e10; /* Verde classico Steam per l'acquisto */
+    background-color: #5c7e10;
     border: none;
     border-radius: 4px;
     color: white;
@@ -299,7 +297,6 @@ main {
     background-color: #709913;
 }
 
-/* Griglia dei giochi */
 .game-list {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -317,7 +314,7 @@ main {
 }
 
 .game-card:hover {
-    transform: translateY(-5px); /* Leggero effetto "sollevamento" al passaggio del mouse */
+    transform: translateY(-5px);
 }
 
 .game-thumbnail {
@@ -346,8 +343,7 @@ footer {
     font-size: 0.8rem;
 }
 
-/* --- STILI AGGIUNTIVI PER COMMUNITY & SUPPORT (Puliti e separati) --- */
-
+/* --- 6. COMMUNITY HUB (STILI UNIFORMI & PULITI) --- */
 .section-subtitle {
     color: #8f98a0;
     margin-bottom: 20px;
@@ -375,37 +371,119 @@ footer {
     background-color: #47bfff;
 }
 
-/* Community Box e Feed */
-.community-box {
+/* Topic Bar */
+.community-topics-bar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.topic-filter-btn {
+    background-color: #171a21;
+    color: #c7d5e0;
+    border: 1px solid #2a475e;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: all 0.2s ease;
+}
+
+.topic-filter-btn:hover,
+.topic-filter-btn.active {
     background-color: #2a475e;
-    padding: 20px;
-    border-radius: 8px;
-    margin-bottom: 30px;
+    color: #66c0f4;
+    border-color: #66c0f4;
+}
+
+/* Community Box Creation */
+.community-box {
+    background-color: #171a21;
+    border: 1px solid #2a475e;
+    padding: 15px;
+    border-radius: 6px;
+    margin-bottom: 25px;
 }
 
 .community-box h3 {
     color: white;
+    margin-top: 0;
     margin-bottom: 10px;
     font-size: 1.1rem;
 }
 
 #community-post-input {
     width: 100%;
-    height: 80px;
+    min-height: 80px;
     padding: 10px;
-    background-color: #1b2838;
-    border: 1px solid #323f4d;
+    background-color: #10141b;
+    border: 1px solid #2a475e;
     border-radius: 4px;
-    color: white;
-    resize: none;
-    margin-bottom: 10px;
+    color: #c7d5e0;
+    resize: vertical;
+    outline: none;
+    box-sizing: border-box;
 }
 
 #community-post-input:focus {
-    outline: none;
     border-color: #66c0f4;
 }
 
+.post-create-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.post-options-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.topic-label {
+    color: #8f98a0;
+    font-size: 0.85rem;
+    font-weight: bold;
+}
+
+/* ALLINEAMENTO E DIMENSIONI IDENTICHE PER TENDINA E PULSANTE EMOJI */
+.topic-select-dropdown,
+.emoji-toggle-btn {
+    height: 38px;
+    padding: 0 12px;
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #2a475e;
+    color: #c7d5e0;
+    border: 1px solid #10141b;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    outline: none;
+    cursor: pointer;
+    transition: border-color 0.2s, background-color 0.2s;
+}
+
+.emoji-toggle-btn {
+    width: 42px;
+    font-size: 1.1rem;
+}
+
+.topic-select-dropdown:focus,
+.emoji-toggle-btn:hover {
+    border-color: #66c0f4;
+    background-color: #325573;
+}
+
+/* Community Feed & Posts */
 #community-feed {
     display: flex;
     flex-direction: column;
@@ -413,16 +491,29 @@ footer {
 }
 
 .post-card {
-    background-color: #2a475e;
+    background-color: #171a21;
+    border: 1px solid #2a475e;
     padding: 15px;
-    border-radius: 8px;
-    border-left: 4px solid #66c0f4;
+    border-radius: 4px;
+    margin-bottom: 20px;
 }
 
 .post-header {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 8px;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.post-topic-badge {
+    background-color: #2a475e;
+    color: #66c0f4;
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    margin-right: 8px;
+    display: inline-block;
 }
 
 .post-author {
@@ -433,15 +524,163 @@ footer {
 .post-date {
     font-size: 0.8rem;
     color: #8f98a0;
+    margin-left: 10px;
+}
+
+.delete-post-btn {
+    background: transparent;
+    border: none;
+    color: #ff4d4d;
+    cursor: pointer;
+    font-size: 1rem;
 }
 
 .post-text {
     color: #c7d5e0;
+    margin-bottom: 12px;
+    line-height: 1.4;
     font-size: 0.95rem;
 }
 
+.post-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
 
-/* Support Section */
+.like-btn {
+    background-color: #2a475e;
+    color: #66c0f4;
+    border: 1px solid #66c0f4;
+    padding: 6px 14px;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.like-btn:hover {
+    background-color: #66c0f4;
+    color: #10141b;
+}
+
+/* Comments Section */
+.comments-section {
+    margin-top: 15px;
+    padding-top: 12px;
+    border-top: 1px solid #2a475e;
+}
+
+.comment-item {
+    background-color: #10141b;
+    border-left: 3px solid #66c0f4;
+    padding: 8px 12px;
+    border-radius: 3px;
+    margin-bottom: 8px;
+}
+
+.comment-author {
+    color: #66c0f4;
+    font-size: 0.85rem;
+}
+
+.comment-date {
+    font-size: 0.75rem;
+    color: #8f98a0;
+    margin-left: 8px;
+}
+
+.comment-text {
+    color: #c7d5e0;
+    font-size: 0.88rem;
+    margin-top: 4px;
+}
+
+.add-comment-box {
+    display: flex;
+    gap: 10px;
+    margin-top: 12px;
+    position: relative;
+}
+
+.comment-input {
+    flex: 1;
+    background-color: #2a475e;
+    color: #c7d5e0;
+    border: 1px solid #10141b;
+    padding: 8px 12px;
+    border-radius: 4px;
+    outline: none;
+    font-size: 0.85rem;
+}
+
+.comment-input:focus {
+    border-color: #66c0f4;
+}
+
+.submit-comment-btn {
+    background-color: #2a475e;
+    color: #66c0f4;
+    border: 1px solid #66c0f4;
+    padding: 8px 14px;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.submit-comment-btn:hover {
+    background-color: #66c0f4;
+    color: #10141b;
+}
+
+/* Emoji Popup Picker */
+.emoji-picker-container {
+    position: relative;
+    display: inline-block;
+}
+
+.emoji-popup {
+    display: none;
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    background-color: #171a21;
+    border: 1px solid #2a475e;
+    padding: 8px;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    z-index: 100;
+    width: 210px;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 6px;
+    margin-bottom: 6px;
+}
+
+.emoji-popup.active {
+    display: grid;
+}
+
+.emoji-item {
+    background: transparent;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+    text-align: center;
+    transition: background-color 0.2s;
+}
+
+.emoji-item:hover {
+    background-color: #2a475e;
+}
+
+/* --- 7. SUPPORT SECTION --- */
 .support-wrapper {
     max-width: 600px;
     margin: 0 auto;
@@ -496,7 +735,7 @@ footer {
     display: none;
 }
 
-/* Stile per le notifiche Toast in stile Steam */
+/* --- 8. TOAST NOTIFICATION --- */
 #toast-notification {
     position: fixed;
     bottom: 25px;
@@ -525,165 +764,4 @@ footer {
 
 #toast-notification .toast-icon {
     font-size: 1.2rem;
-}
-
-/* STILE SEZIONE COMMENTI */
-.post-card {
-    background-color: #171a21;
-    border: 1px solid #2a475e;
-    padding: 15px;
-    border-radius: 4px;
-    margin-bottom: 20px;
-}
-
-.post-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-}
-
-.post-author { color: #66c0f4; }
-.post-date { font-size: 0.8rem; color: #8f98a0; margin-left: 10px; }
-.delete-post-btn { background: transparent; border: none; color: #ff4d4d; cursor: pointer; font-size: 1rem; }
-.post-text { color: #c7d5e0; margin-bottom: 12px; line-height: 1.4; }
-
-.comments-section {
-    margin-top: 15px;
-    padding-top: 12px;
-    border-top: 1px solid #2a475e;
-}
-
-.comment-item {
-    background-color: #10141b;
-    border-left: 3px solid #66c0f4;
-    padding: 8px 12px;
-    border-radius: 3px;
-    margin-bottom: 8px;
-}
-
-.comment-author { color: #66c0f4; font-size: 0.85rem; }
-.comment-date { font-size: 0.75rem; color: #8f98a0; margin-left: 8px; }
-.comment-text { color: #c7d5e0; font-size: 0.88rem; margin-top: 4px; }
-
-.add-comment-box {
-    display: flex;
-    gap: 10px;
-    margin-top: 12px;
-}
-
-.comment-input {
-    flex: 1;
-    background-color: #2a475e;
-    color: #c7d5e0;
-    border: 1px solid #10141b;
-    padding: 8px 12px;
-    border-radius: 4px;
-    outline: none;
-    font-size: 0.85rem;
-}
-
-.comment-input:focus {
-    border-color: #66c0f4;
-}
-
-.submit-comment-btn {
-    background-color: #2a475e;
-    color: #66c0f4;
-    border: 1px solid #66c0f4;
-    padding: 8px 14px;
-    border-radius: 4px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.2s;
-}
-
-.submit-comment-btn:hover {
-    background-color: #66c0f4;
-    color: #10141b;
-}
-
-/* STILE BOTTONE LIKE */
-.post-actions {
-    display: flex;
-    gap: 10px;
-    margin-top: 10px;
-}
-
-.like-btn {
-    background-color: #2a475e;
-    color: #66c0f4;
-    border: 1px solid #66c0f4;
-    padding: 6px 14px;
-    border-radius: 4px;
-    font-weight: bold;
-    font-size: 0.85rem;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
-
-.like-btn:hover {
-    background-color: #66c0f4;
-    color: #10141b;
-}
-
-/* STILE SELETTORE EMOJI */
-.emoji-picker-container {
-    position: relative;
-    display: inline-block;
-}
-
-.emoji-toggle-btn {
-    background-color: #2a475e;
-    color: #c7d5e0;
-    border: 1px solid #10141b;
-    padding: 8px 12px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: background-color 0.2s;
-}
-
-.emoji-toggle-btn:hover {
-    background-color: #66c0f4;
-    color: #10141b;
-}
-
-.emoji-popup {
-    display: none;
-    position: absolute;
-    bottom: 100%;
-    left: 0;
-    background-color: #171a21;
-    border: 1px solid #2a475e;
-    padding: 8px;
-    border-radius: 6px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-    z-index: 100;
-    width: 210px;
-    display: none;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 6px;
-}
-
-.emoji-popup.active {
-    display: grid;
-}
-
-.emoji-item {
-    background: transparent;
-    border: none;
-    font-size: 1.2rem;
-    cursor: pointer;
-    padding: 4px;
-    border-radius: 4px;
-    text-align: center;
-    transition: background-color 0.2s;
-}
-
-.emoji-item:hover {
-    background-color: #2a475e;
 }

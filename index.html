@@ -56,7 +56,6 @@
         </select>
     </div>
 </div>
-            </section>
 
             <!-- Vetrina in evidenza -->
             <section id="featured-game">
@@ -94,16 +93,56 @@
         </div>
 
 
-        <!-- VISTA COMMUNITY -->
+<!-- VISTA COMMUNITY -->
         <div id="community-view" class="view-section" style="display: none;">
             <section>
                 <h2>GameZone Community Hub</h2>
                 <p class="section-subtitle">Share your thoughts, screenshots, and chat with other players.</p>
+
+                <!-- 1. BARRA DEI FILTRI TOPIC -->
+                <div class="community-topics-bar">
+                    <button type="button" class="topic-filter-btn active" data-topic="All">All Topics</button>
+                    <button type="button" class="topic-filter-btn" data-topic="General">General</button>
+                    <button type="button" class="topic-filter-btn" data-topic="Guides">Guides & Tips</button>
+                    <button type="button" class="topic-filter-btn" data-topic="LFG">LFG (Co-op)</button>
+                    <button type="button" class="topic-filter-btn" data-topic="Screenshots">Screenshots</button>
+                </div>
                 
+                <!-- 2. BOX CREAZIONE POST CON SELETTORE TOPIC E EMOJI -->
                 <div class="community-box">
                     <h3>Create a Post</h3>
                     <textarea id="community-post-input" placeholder="What's on your mind, gamer?"></textarea>
-                    <button id="post-submit-btn" type="button" class="action-btn">Post</button>
+                    
+                    <div class="post-create-controls">
+                        <div class="post-options-left">
+                            <label for="post-topic-select" class="topic-label">Topic:</label>
+                            <select id="post-topic-select" class="topic-select-dropdown">
+                                <option value="General">General</option>
+                                <option value="Guides">Guides & Tips</option>
+                                <option value="LFG">LFG (Co-op)</option>
+                                <option value="Screenshots">Screenshots</option>
+                            </select>
+
+                            <!-- PULSANTE ED EMOJI POPUP PER IL POST -->
+                            <div class="emoji-picker-container">
+                                <button type="button" class="emoji-toggle-btn" id="post-emoji-toggle-btn" title="Add Emoji">😊</button>
+                                <div class="emoji-popup" id="post-emoji-popup">
+                                    <button type="button" class="emoji-item">🎮</button>
+                                    <button type="button" class="emoji-item">🔥</button>
+                                    <button type="button" class="emoji-item">🏆</button>
+                                    <button type="button" class="emoji-item">🚀</button>
+                                    <button type="button" class="emoji-item">👍</button>
+                                    <button type="button" class="emoji-item">😎</button>
+                                    <button type="button" class="emoji-item">👾</button>
+                                    <button type="button" class="emoji-item">⭐</button>
+                                    <button type="button" class="emoji-item">💯</button>
+                                    <button type="button" class="emoji-item">💀</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button id="post-submit-btn" type="button" class="action-btn">Post</button>
+                    </div>
                 </div>
 
                 <div id="community-feed"></div>

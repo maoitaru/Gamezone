@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
 
+    let currentTopicFilter = 'All';
     let currentStoreGames = [];
 
     // --- SISTEMA NOTIFICHE TOAST ---
@@ -20,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 4000);
     }
 
-// --- PART 1: LOGIN, REMEMBER ME & FORGOT PASSWORD MANAGEMENT ---
+    // --- PART 1: LOGIN, REMEMBER ME & FORGOT PASSWORD MANAGEMENT ---
     const loginForm = document.getElementById('login-form');
     if (loginForm) {
         const usernameInput = document.getElementById('username');
@@ -75,10 +76,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     errorMessage.textContent = data.message || 'Incorrect credentials!';
                     errorMessage.style.color = '#ff4d4d';
 
-                    // SVUOTA LA PASSWORD DOPO OGNI TENTATIVO ERRATO
                     if (passwordInput) passwordInput.value = "";
 
-                    // If account is locked due to too many failed attempts, automatically open the reset modal
                     if (data.locked && forgotModal) {
                         showToast("Account locked! Please reset your password.", "🔒");
                         setTimeout(() => {
@@ -94,7 +93,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        // 3. Open Forgot Password Modal
         if (forgotLink && forgotModal) {
             forgotLink.addEventListener('click', function(e) {
                 e.preventDefault();
@@ -102,14 +100,12 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
 
-        // Close Modal
         if (closeResetBtn && forgotModal) {
             closeResetBtn.addEventListener('click', function() {
                 forgotModal.style.display = 'none';
             });
         }
 
-        // Submit Reset Password from Modal
         if (submitResetBtn) {
             submitResetBtn.addEventListener('click', async function() {
                 const username = resetUsernameInput.value.trim();
@@ -134,7 +130,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         resetUsernameInput.value = "";
                         resetNewPasswordInput.value = "";
 
-                        // SVUOTA IL CAMPO PASSWORD DEL FORM DI LOGIN PER INSERIRE QUELLA NUOVA
                         if (passwordInput) passwordInput.value = "";
                         if (errorMessage) errorMessage.textContent = "";
 
@@ -301,10 +296,8 @@ document.addEventListener('DOMContentLoaded', function() {
             hideAllViews();
             profileView.style.display = 'block';
 
-            // Aggiorna nome utente
             document.getElementById('profile-username').textContent = loggedUser || "Guest";
 
-            // Conta i giochi in libreria dal backend
             try {
                 const libRes = await fetch(`/api/library/${loggedUser}`);
                 const library = await libRes.json();
@@ -313,7 +306,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.error("Errore caricamento giochi profilo:", err);
             }
 
-            // Conta i post della community scritti dall'utente
             try {
                 const postRes = await fetch('/api/posts');
                 const posts = await postRes.json();
@@ -344,7 +336,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     return;
                 }
 
-                // Creiamo una tabella per mostrare i ticket in modo ordinato
                 const table = document.createElement('table');
                 table.style.cssText = "width: 100%; border-collapse: collapse; color: #c7d5e0; font-size: 0.9rem;";
                 
@@ -443,7 +434,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (dynamicGameList) generateRandomGames(12);
     if (generateBtn) generateBtn.addEventListener('click', () => generateRandomGames(12));
 
-// --- GESTIONE FILTRO GENERI CON SELECT A TENDINA ---
+    // --- GESTIONE FILTRO GENERI CON SELECT A TENDINA ---
     const genreSelect = document.getElementById('genre-select');
     if (genreSelect) {
         genreSelect.addEventListener('change', (e) => {
@@ -470,17 +461,34 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // --- COMMUNITY HUB (FETCH BACKEND) ---
-    const postSubmitBtn = document.getElementById('post-submit-btn');
-    const communityPostInput = document.getElementById('community-post-input');
-    const communityFeed = document.getElementById('community-feed');
+    // --- GESTIONE FILTRI TOPIC COMMUNITY ---
+    document.querySelectorAll('.topic-filter-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            document.querySelectorAll('.topic-filter-btn').forEach(b => {
+                b.style.backgroundColor = '#171a21';
+                b.style.color = '#c7d5e0';
+                b.style.border = '1px solid #2a475e';
+            });
+            e.target.style.backgroundColor = '#2a475e';
+            e.target.style.color = '#66c0f4';
+            e.target.style.border = '1px solid #66c0f4';
 
-// --- COMMUNITY HUB (RENDER POSTS & COMMENTS WITH EMOJIS) ---
+            currentTopicFilter = e.target.getAttribute('data-topic');
+            renderCommunityPosts();
+        });
+    });
+
+    // --- COMMUNITY HUB (RENDER POSTS & COMMENTS WITH EMOJIS & TOPICS) ---
     async function renderCommunityPosts() {
         if (!communityFeed) return;
         try {
             const res = await fetch('/api/posts');
-            const posts = await res.json();
+            let posts = await res.json();
+
+            // --- FILTRO TOPIC ATTIVO ---
+            if (currentTopicFilter !== 'All') {
+                posts = posts.filter(p => (p.topic || 'General') === currentTopicFilter);
+            }
 
             communityFeed.innerHTML = "";
 
@@ -507,6 +515,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 postCard.innerHTML = `
                     <div class="post-header">
                         <div>
+                            <span class="post-topic-badge" style="background-color: #2a475e; color: #66c0f4; padding: 2px 8px; border-radius: 3px; font-size: 0.75rem; font-weight: bold; margin-right: 8px;">${post.topic || 'General'}</span>
                             <strong class="post-author">${post.author}</strong>
                             <span class="post-date">${post.date}</span>
                         </div>
@@ -562,7 +571,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 });
 
-                // Gestore Emoji Popup
+                // --- GESTORE EMOJI POPUP PER I COMMENTI ---
                 const emojiBtn = postCard.querySelector('.emoji-toggle-btn');
                 const emojiPopup = postCard.querySelector('.emoji-popup');
                 const commentInput = postCard.querySelector('.comment-input');
@@ -638,21 +647,33 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-if (postSubmitBtn) {
+// --- INVIO NUOVO POST (CON TOPIC) ---
+    const postSubmitBtn = document.getElementById('post-submit-btn');
+    const communityPostInput = document.getElementById('community-post-input');
+    const communityFeed = document.getElementById('community-feed');
+
+    if (postSubmitBtn) {
         postSubmitBtn.addEventListener('click', async () => {
             const text = communityPostInput.value.trim();
+            const topicSelect = document.getElementById('post-topic-select');
+            const topic = topicSelect ? topicSelect.value : "General";
+
             if (!text) return showToast("Write something before posting!");
 
             try {
                 const res = await fetch('/api/posts', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ author: loggedUser || "Gamer", text: text })
+                    body: JSON.stringify({ 
+                        author: loggedUser || "Gamer", 
+                        text: text,
+                        topic: topic 
+                    })
                 });
 
                 if (res.ok) {
                     communityPostInput.value = "";
-                    showToast("Post published successfully!", "💬"); // <-- AGGIUNGI QUESTO
+                    showToast("Post published successfully!", "💬");
                     renderCommunityPosts();
                 }
             } catch (err) {
@@ -661,11 +682,32 @@ if (postSubmitBtn) {
         });
     }
 
+    // --- INCOLLA QUI IL GESTORE EMOJI PER IL BOX DI CREAZIONE POST ---
+    const postEmojiBtn = document.getElementById('post-emoji-toggle-btn');
+    const postEmojiPopup = document.getElementById('post-emoji-popup');
+
+    if (postEmojiBtn && postEmojiPopup && communityPostInput) {
+        postEmojiBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            document.querySelectorAll('.emoji-popup').forEach(p => {
+                if (p !== postEmojiPopup) p.classList.remove('active');
+            });
+            postEmojiPopup.classList.toggle('active');
+        });
+
+        postEmojiPopup.querySelectorAll('.emoji-item').forEach(item => {
+            item.addEventListener('click', () => {
+                communityPostInput.value += item.textContent;
+                postEmojiPopup.classList.remove('active');
+                communityPostInput.focus();
+            });
+        });
+    }
+
     // --- CUSTOMER SUPPORT (FETCH BACKEND) ---
     const supportForm = document.getElementById('support-form');
-    const supportSuccessMsg = document.getElementById('support-success-msg');
 
-if (supportForm) {
+    if (supportForm) {
         supportForm.addEventListener('submit', async function(e) {
             e.preventDefault();
             const issueType = document.getElementById('support-issue').value;
@@ -686,7 +728,7 @@ if (supportForm) {
                     const data = await response.json();
 
                     if (data.success) {
-                        showToast(`Ticket (${data.ticketId}) submitted successfully!`, "🛠️"); // <-- AGGIUNGI QUESTO
+                        showToast(`Ticket (${data.ticketId}) submitted successfully!`, "🛠️");
                         supportForm.reset();
                     }
                 } catch (error) {
@@ -697,6 +739,7 @@ if (supportForm) {
         });
     }
 
+    // --- CHIUSURA POPUP EMOJI CLICCANDO FUORI ---
     document.addEventListener('click', () => {
         document.querySelectorAll('.emoji-popup').forEach(p => {
             p.classList.remove('active');

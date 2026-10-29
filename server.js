@@ -154,27 +154,35 @@ app.post('/api/library/remove', (req, res) => {
     res.json({ success: true });
 });
 
-// --- API COMMUNITY HUB AGGIORNATE ---
-app.get('/api/posts', (req, res) => {
-    res.json(getPosts());
-});
-
+// --- API COMMUNITY HUB: CREAZIONE POST CON TOPIC ---
 app.post('/api/posts', (req, res) => {
-    const { author, text } = req.body;
-    if (!text || !text.trim()) return res.status(400).json({ success: false });
+    const { author, text, topic } = req.body;
+
+    if (!text || !text.trim()) {
+        return res.status(400).json({ success: false, message: 'Post content cannot be empty.' });
+    }
 
     const posts = getPosts();
     const newPost = {
         id: "post-" + Date.now(),
         author: author || "Gamer",
+        topic: topic || "General", // Se il topic non viene inviato, assegna "General"
         text: text.trim(),
-        date: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + " - Today",
-        likes: 0
+        likes: 0,
+        likedBy: [],
+        comments: [],
+        date: new Date().toLocaleDateString() + " - " + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     };
 
     posts.unshift(newPost);
     savePosts(posts);
     res.json({ success: true, post: newPost });
+});
+
+// --- API COMMUNITY HUB: RECUPERO POST ---
+app.get('/api/posts', (req, res) => {
+    const posts = getPosts();
+    res.json(posts);
 });
 
 // Aggiungi un Like a un post
