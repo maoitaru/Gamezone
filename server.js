@@ -45,34 +45,55 @@ app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'index.html')));
 app.get('/login.html', (req, res) => res.sendFile(path.join(__dirname, 'login.html')));
 app.get('/register.html', (req, res) => res.sendFile(path.join(__dirname, 'register.html')));
 
-// --- AUTENTICAZIONE ---
+// --- REGISTRATION ---
 app.post('/api/register', (req, res) => {
     const { username, password } = req.body;
-    if (!username || !password) return res.status(400).json({ success: false, message: 'Dati incompleti!' });
+    if (!username || !password) return res.status(400).json({ success: false, message: 'Incomplete data!' });
 
     const users = getUsers();
     if (users.some(u => u.username.toLowerCase() === username.toLowerCase())) {
-        return res.status(400).json({ success: false, message: 'Username già esistente!' });
+        return res.status(400).json({ success: false, message: 'Username already exists!' });
     }
 
-    users.push({ username, password, library: [] });
+    users.push({ username, password, failedAttempts: 0, library: [] });
     saveUsers(users);
     res.json({ success: true });
 });
 
+// --- LOGIN WITH 3 ATTEMPTS LOCK ---
 app.post('/api/login', (req, res) => {
     const { username, password } = req.body;
     const users = getUsers();
-    const user = users.find(u => u.username === username && u.password === password);
+    const user = users.find(u => u.username === username);
 
-    if (user) {
-        res.json({ success: true, username: user.username });
+    if (!user) {
+        return res.status(401).json({ success: false, message: 'User not found!' });
+    }
+
+    if (user.password === password) {
+        user.failedAttempts = 0; // Reset attempts on success
+        saveUsers(users);
+        return res.json({ success: true, username: user.username });
     } else {
-        res.status(401).json({ success: false, message: 'Credenziali errate!' });
+        user.failedAttempts = (user.failedAttempts || 0) + 1;
+        saveUsers(users);
+
+        if (user.failedAttempts >= 3) {
+            return res.status(401).json({ 
+                success: false, 
+                locked: true, 
+                message: 'Too many failed attempts! Account locked. Please reset your password.' 
+            });
+        }
+
+        return res.status(401).json({ 
+            success: false, 
+            message: `Incorrect credentials! Failed attempts: ${user.failedAttempts}/3` 
+        });
     }
 });
 
-// --- API: FORGOT PASSWORD ---
+// --- API: FORGOT PASSWORD (RESET ATTEMPTS) ---
 app.post('/api/forgot-password', (req, res) => {
     const { username, newPassword } = req.body;
     
@@ -88,8 +109,8 @@ app.post('/api/forgot-password', (req, res) => {
         return res.json({ success: false, message: 'Username does not exist!' });
     }
 
-    // Aggiorna la password
     users[userIndex].password = newPassword;
+    users[userIndex].failedAttempts = 0; 
     fs.writeFileSync(usersFile, JSON.stringify(users, null, 2));
 
     res.json({ success: true, message: 'Password updated successfully!' });

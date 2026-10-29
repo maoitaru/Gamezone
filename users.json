@@ -32,14 +32,8 @@
   },
   {
     "username": "jiji",
-    "password": "jiji4",
+    "password": "jiji",
     "library": [
-      {
-        "title": "Shadow Protocol 3",
-        "genre": "Strategy",
-        "price": "$20.86",
-        "image": "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=400"
-      },
       {
         "title": "Super Empire 1",
         "genre": "Action",
@@ -82,7 +76,8 @@
         "price": "$52.63",
         "image": "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=400"
       }
-    ]
+    ],
+    "failedAttempts": 0
   },
   {
     "username": "abba",

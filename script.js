@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 4000);
     }
 
-// --- PARTE 1: GESTIONE LOGIN, REMEMBER ME & FORGOT PASSWORD ---
+// --- PART 1: LOGIN, REMEMBER ME & FORGOT PASSWORD MANAGEMENT ---
     const loginForm = document.getElementById('login-form');
     if (loginForm) {
         const usernameInput = document.getElementById('username');
@@ -29,14 +29,14 @@ document.addEventListener('DOMContentLoaded', function() {
         const errorMessage = document.getElementById('error-message');
         const forgotLink = document.querySelector('.forgot-link');
 
-        // Elementi Modale Forgot Password
+        // Modal Elements
         const forgotModal = document.getElementById('forgot-modal');
         const resetUsernameInput = document.getElementById('reset-username');
         const resetNewPasswordInput = document.getElementById('reset-new-password');
         const submitResetBtn = document.getElementById('submit-reset-btn');
         const closeResetBtn = document.getElementById('close-reset-btn');
 
-        // 1. Se c'è un utente salvato in precedenza, auto-compila username e password
+        // 1. Auto-fill username and password if remembered
         const rememberedUser = localStorage.getItem('gameZoneRememberedUser');
         const rememberedPass = localStorage.getItem('gameZoneRememberedPass');
         if (rememberedUser && usernameInput) {
@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (rememberCheckbox) rememberCheckbox.checked = true;
         }
 
-        // 2. Invio del Login con gestione Remember me (utente + password)
+        // 2. Login submit with Remember Me handling
         loginForm.addEventListener('submit', async function(event) {
             event.preventDefault();
             const username = usernameInput.value.trim();
@@ -72,31 +72,44 @@ document.addEventListener('DOMContentLoaded', function() {
                     localStorage.setItem('gameZoneUser', data.username);
                     window.location.href = 'index.html';
                 } else {
-                    errorMessage.textContent = data.message || 'Credenziali errate!';
+                    errorMessage.textContent = data.message || 'Incorrect credentials!';
                     errorMessage.style.color = '#ff4d4d';
+
+                    // SVUOTA LA PASSWORD DOPO OGNI TENTATIVO ERRATO
+                    if (passwordInput) passwordInput.value = "";
+
+                    // If account is locked due to too many failed attempts, automatically open the reset modal
+                    if (data.locked && forgotModal) {
+                        showToast("Account locked! Please reset your password.", "🔒");
+                        setTimeout(() => {
+                            forgotModal.style.display = 'flex';
+                            if (resetUsernameInput) resetUsernameInput.value = username;
+                        }, 1500);
+                    }
                 }
             } catch (err) {
-                errorMessage.textContent = 'Errore di connessione al server!';
+                errorMessage.textContent = 'Server connection error!';
                 errorMessage.style.color = '#ff4d4d';
+                if (passwordInput) passwordInput.value = "";
             }
         });
 
-        // 3. Apertura Modale Forgot Password al click sul link
+        // 3. Open Forgot Password Modal
         if (forgotLink && forgotModal) {
             forgotLink.addEventListener('click', function(e) {
                 e.preventDefault();
-                forgotModal.style.display = 'flex'; // Mostra la modale centrale
+                forgotModal.style.display = 'flex';
             });
         }
 
-        // Chiusura Modale
+        // Close Modal
         if (closeResetBtn && forgotModal) {
             closeResetBtn.addEventListener('click', function() {
                 forgotModal.style.display = 'none';
             });
         }
 
-        // Invio richiesta reset password dalla modale
+        // Submit Reset Password from Modal
         if (submitResetBtn) {
             submitResetBtn.addEventListener('click', async function() {
                 const username = resetUsernameInput.value.trim();
@@ -117,9 +130,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     const data = await response.json();
                     if (data.success) {
                         showToast("Password updated successfully!", "🔑");
-                        forgotModal.style.display = 'none'; // Chiude la modale
+                        forgotModal.style.display = 'none';
                         resetUsernameInput.value = "";
                         resetNewPasswordInput.value = "";
+
+                        // SVUOTA IL CAMPO PASSWORD DEL FORM DI LOGIN PER INSERIRE QUELLA NUOVA
+                        if (passwordInput) passwordInput.value = "";
+                        if (errorMessage) errorMessage.textContent = "";
+
                     } else {
                         showToast(data.message || "Error resetting password.", "❌");
                     }
