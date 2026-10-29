@@ -4,7 +4,21 @@
     "author": "jiji",
     "text": "hhhhh",
     "date": "14:05 - Today",
-    "likes": 0
+    "likes": 8,
+    "comments": [
+      {
+        "id": "comment-1793275060641",
+        "author": "jiji",
+        "text": "aaaa",
+        "date": "12:57 - Today"
+      },
+      {
+        "id": "comment-1793275668527",
+        "author": "jiji",
+        "text": "lets rock👾",
+        "date": "13:07 - Today"
+      }
+    ]
   },
   {
     "id": "post-1793187779552",

@@ -526,3 +526,164 @@ footer {
 #toast-notification .toast-icon {
     font-size: 1.2rem;
 }
+
+/* STILE SEZIONE COMMENTI */
+.post-card {
+    background-color: #171a21;
+    border: 1px solid #2a475e;
+    padding: 15px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+.post-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.post-author { color: #66c0f4; }
+.post-date { font-size: 0.8rem; color: #8f98a0; margin-left: 10px; }
+.delete-post-btn { background: transparent; border: none; color: #ff4d4d; cursor: pointer; font-size: 1rem; }
+.post-text { color: #c7d5e0; margin-bottom: 12px; line-height: 1.4; }
+
+.comments-section {
+    margin-top: 15px;
+    padding-top: 12px;
+    border-top: 1px solid #2a475e;
+}
+
+.comment-item {
+    background-color: #10141b;
+    border-left: 3px solid #66c0f4;
+    padding: 8px 12px;
+    border-radius: 3px;
+    margin-bottom: 8px;
+}
+
+.comment-author { color: #66c0f4; font-size: 0.85rem; }
+.comment-date { font-size: 0.75rem; color: #8f98a0; margin-left: 8px; }
+.comment-text { color: #c7d5e0; font-size: 0.88rem; margin-top: 4px; }
+
+.add-comment-box {
+    display: flex;
+    gap: 10px;
+    margin-top: 12px;
+}
+
+.comment-input {
+    flex: 1;
+    background-color: #2a475e;
+    color: #c7d5e0;
+    border: 1px solid #10141b;
+    padding: 8px 12px;
+    border-radius: 4px;
+    outline: none;
+    font-size: 0.85rem;
+}
+
+.comment-input:focus {
+    border-color: #66c0f4;
+}
+
+.submit-comment-btn {
+    background-color: #2a475e;
+    color: #66c0f4;
+    border: 1px solid #66c0f4;
+    padding: 8px 14px;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.submit-comment-btn:hover {
+    background-color: #66c0f4;
+    color: #10141b;
+}
+
+/* STILE BOTTONE LIKE */
+.post-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.like-btn {
+    background-color: #2a475e;
+    color: #66c0f4;
+    border: 1px solid #66c0f4;
+    padding: 6px 14px;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.like-btn:hover {
+    background-color: #66c0f4;
+    color: #10141b;
+}
+
+/* STILE SELETTORE EMOJI */
+.emoji-picker-container {
+    position: relative;
+    display: inline-block;
+}
+
+.emoji-toggle-btn {
+    background-color: #2a475e;
+    color: #c7d5e0;
+    border: 1px solid #10141b;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.2s;
+}
+
+.emoji-toggle-btn:hover {
+    background-color: #66c0f4;
+    color: #10141b;
+}
+
+.emoji-popup {
+    display: none;
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    background-color: #171a21;
+    border: 1px solid #2a475e;
+    padding: 8px;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    z-index: 100;
+    width: 210px;
+    display: none;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 6px;
+}
+
+.emoji-popup.active {
+    display: grid;
+}
+
+.emoji-item {
+    background: transparent;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+    text-align: center;
+    transition: background-color 0.2s;
+}
+
+.emoji-item:hover {
+    background-color: #2a475e;
+}

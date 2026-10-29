@@ -191,6 +191,36 @@ app.post('/api/posts/like', (req, res) => {
     res.status(404).json({ success: false, message: 'Post not found' });
 });
 
+// --- API COMMUNITY HUB: AGGIUNTA COMMENTI ---
+app.post('/api/posts/comment', (req, res) => {
+    const { postId, author, text } = req.body;
+
+    if (!text || !text.trim()) {
+        return res.status(400).json({ success: false, message: 'Comment cannot be empty.' });
+    }
+
+    const posts = getPosts();
+    const post = posts.find(p => p.id === postId);
+
+    if (post) {
+        if (!post.comments) post.comments = [];
+
+        const newComment = {
+            id: "comment-" + Date.now(),
+            author: author || "Gamer",
+            text: text.trim(),
+            date: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + " - Today"
+        };
+
+        post.comments.push(newComment);
+        savePosts(posts);
+
+        return res.json({ success: true, comments: post.comments });
+    }
+
+    res.status(404).json({ success: false, message: 'Post not found.' });
+});
+
 // Elimina un post
 app.post('/api/posts/delete', (req, res) => {
     const { postId, username } = req.body;

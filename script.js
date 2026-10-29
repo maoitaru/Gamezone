@@ -475,6 +475,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const communityPostInput = document.getElementById('community-post-input');
     const communityFeed = document.getElementById('community-feed');
 
+// --- COMMUNITY HUB (RENDER POSTS & COMMENTS WITH EMOJIS) ---
     async function renderCommunityPosts() {
         if (!communityFeed) return;
         try {
@@ -490,23 +491,61 @@ document.addEventListener('DOMContentLoaded', function() {
 
             posts.forEach(post => {
                 const isAuthor = (loggedUser && post.author === loggedUser);
+                const comments = post.comments || [];
+                
                 const postCard = document.createElement('div');
                 postCard.className = 'post-card';
-                postCard.style.cssText = "background-color: #171a21; border: 1px solid #2a475e; padding: 15px; border-radius: 4px; margin-bottom: 15px;";
                 
-                postCard.innerHTML = `
-                    <div class="post-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                        <div>
-                            <strong class="post-author" style="color: #66c0f4;">${post.author}</strong>
-                            <span class="post-date" style="font-size: 0.8rem; color: #8f98a0; margin-left: 10px;">${post.date}</span>
-                        </div>
-                        ${isAuthor ? `<button class="delete-post-btn" style="background: transparent; border: none; color: #ff4d4d; cursor: pointer; font-size: 1rem;" title="Delete Post">🗑️</button>` : ''}
+                const commentsHTML = comments.map(c => `
+                    <div class="comment-item">
+                        <strong class="comment-author">${c.author}</strong>
+                        <span class="comment-date">${c.date}</span>
+                        <p class="comment-text">${c.text}</p>
                     </div>
-                    <p class="post-text" style="color: #c7d5e0; margin-bottom: 12px; line-height: 1.4;">${post.text}</p>
+                `).join('');
+
+                postCard.innerHTML = `
+                    <div class="post-header">
+                        <div>
+                            <strong class="post-author">${post.author}</strong>
+                            <span class="post-date">${post.date}</span>
+                        </div>
+                        ${isAuthor ? `<button class="delete-post-btn" title="Delete Post">🗑️</button>` : ''}
+                    </div>
+                    <p class="post-text">${post.text}</p>
                     <div class="post-actions">
-                        <button class="like-btn" style="background-color: #2a475e; border: 1px solid #66c0f4; color: #66c0f4; padding: 5px 12px; border-radius: 4px; cursor: pointer; font-weight: bold;">
+                        <button class="like-btn">
                             👍 Like (<span class="like-count">${post.likes || 0}</span>)
                         </button>
+                    </div>
+
+                    <!-- SEZIONE COMMENTI CON EMOJI -->
+                    <div class="comments-section">
+                        <div class="comments-list">
+                            ${commentsHTML}
+                        </div>
+                        <div class="add-comment-box" style="position: relative;">
+                            <input type="text" class="comment-input" placeholder="Write a comment..." />
+                            
+                            <!-- PULSANTE ED EMOJI POPUP -->
+                            <div class="emoji-picker-container">
+                                <button type="button" class="emoji-toggle-btn" title="Add Emoji">😊</button>
+                                <div class="emoji-popup">
+                                    <button type="button" class="emoji-item">🎮</button>
+                                    <button type="button" class="emoji-item">🔥</button>
+                                    <button type="button" class="emoji-item">🏆</button>
+                                    <button type="button" class="emoji-item">🚀</button>
+                                    <button type="button" class="emoji-item">👍</button>
+                                    <button type="button" class="emoji-item">😎</button>
+                                    <button type="button" class="emoji-item">👾</button>
+                                    <button type="button" class="emoji-item">⭐</button>
+                                    <button type="button" class="emoji-item">💯</button>
+                                    <button type="button" class="emoji-item">💀</button>
+                                </div>
+                            </div>
+
+                            <button class="submit-comment-btn">Comment</button>
+                        </div>
                     </div>
                 `;
 
@@ -523,7 +562,56 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 });
 
-                // Gestore Elimina (se presente)
+                // Gestore Emoji Popup
+                const emojiBtn = postCard.querySelector('.emoji-toggle-btn');
+                const emojiPopup = postCard.querySelector('.emoji-popup');
+                const commentInput = postCard.querySelector('.comment-input');
+
+                emojiBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    document.querySelectorAll('.emoji-popup').forEach(p => {
+                        if (p !== emojiPopup) p.classList.remove('active');
+                    });
+                    emojiPopup.classList.toggle('active');
+                });
+
+                emojiPopup.querySelectorAll('.emoji-item').forEach(item => {
+                    item.addEventListener('click', () => {
+                        commentInput.value += item.textContent;
+                        emojiPopup.classList.remove('active');
+                        commentInput.focus();
+                    });
+                });
+
+                // Gestore Invia Commento
+                const submitCommentBtn = postCard.querySelector('.submit-comment-btn');
+                submitCommentBtn.addEventListener('click', async () => {
+                    const commentText = commentInput.value.trim();
+                    if (!commentText) return showToast("Write a comment first!", "❌");
+
+                    try {
+                        const response = await fetch('/api/posts/comment', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                postId: post.id,
+                                author: loggedUser || "Gamer",
+                                text: commentText
+                            })
+                        });
+
+                        const data = await response.json();
+                        if (data.success) {
+                            commentInput.value = "";
+                            showToast("Comment added!", "💬");
+                            renderCommunityPosts();
+                        }
+                    } catch (err) {
+                        showToast("Error adding comment.", "❌");
+                    }
+                });
+
+                // Gestore Elimina Post
                 const deleteBtn = postCard.querySelector('.delete-post-btn');
                 if (deleteBtn) {
                     deleteBtn.addEventListener('click', async () => {
@@ -546,7 +634,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 communityFeed.appendChild(postCard);
             });
         } catch (err) {
-            console.error("Errore nel caricamento post:", err);
+            console.error("Error loading posts:", err);
         }
     }
 
@@ -608,5 +696,11 @@ if (supportForm) {
             }
         });
     }
+
+    document.addEventListener('click', () => {
+        document.querySelectorAll('.emoji-popup').forEach(p => {
+            p.classList.remove('active');
+        });
+    });
 
 });
