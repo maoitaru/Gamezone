@@ -25,9 +25,8 @@
         </nav>
         <div class="user-panel">
             <span id="welcome-user"></span>
-<!-- Sostituisci la riga 25 di index.html con questa: -->
-<a href="/login.html" id="logout-btn" class="login-btn" style="margin-left: 15px; color: #ff4d4d; text-decoration: none; font-weight: bold;">Sign Out</a>
-    </div>
+            <a href="/login.html" id="logout-btn" class="logout-link">Sign Out</a>
+        </div>
     </header>
 
     <!-- 2. CONTENUTO PRINCIPALE -->
@@ -35,27 +34,26 @@
         
         <!-- VISTA STORE -->
         <div id="store-view" class="view-section">
-            
-<div class="store-controls" style="display: flex; gap: 15px; margin-bottom: 25px; align-items: center; flex-wrap: wrap;">
-    <!-- Barra di ricerca -->
-    <input type="text" id="search-bar" placeholder="Search games...">
+            <div class="store-controls-flex">
+                <!-- Barra di ricerca -->
+                <input type="text" id="search-bar" placeholder="Search games...">
 
-    <!-- Selettore dei Generi a tendina -->
-    <div class="filter-wrapper">
-        <label for="genre-select">Genre:</label>
-        <select id="genre-select">
-            <option value="All">All Genres</option>
-            <option value="Action">Action</option>
-            <option value="RPG">RPG</option>
-            <option value="Indie">Indie</option>
-            <option value="Strategy">Strategy</option>
-            <option value="Sci-Fi">Sci-Fi</option>
-            <option value="Horror">Horror</option>
-            <option value="Simulator">Simulator</option>
-            <option value="Adventure">Adventure</option>
-        </select>
-    </div>
-</div>
+                <!-- Selettore dei Generi a tendina -->
+                <div class="filter-wrapper">
+                    <label for="genre-select">Genre:</label>
+                    <select id="genre-select">
+                        <option value="All">All Genres</option>
+                        <option value="Action">Action</option>
+                        <option value="RPG">RPG</option>
+                        <option value="Indie">Indie</option>
+                        <option value="Strategy">Strategy</option>
+                        <option value="Sci-Fi">Sci-Fi</option>
+                        <option value="Horror">Horror</option>
+                        <option value="Simulator">Simulator</option>
+                        <option value="Adventure">Adventure</option>
+                    </select>
+                </div>
+            </div>
 
             <!-- Vetrina in evidenza -->
             <section id="featured-game">
@@ -82,7 +80,6 @@
             </section>
         </div>
 
-
         <!-- VISTA LIBRARY -->
         <div id="library-view" class="view-section" style="display: none;">
             <section>
@@ -92,8 +89,7 @@
             </section>
         </div>
 
-
-<!-- VISTA COMMUNITY -->
+        <!-- VISTA COMMUNITY -->
         <div id="community-view" class="view-section" style="display: none;">
             <section>
                 <h2>GameZone Community Hub</h2>
@@ -155,18 +151,18 @@
                 <h2>User Profile</h2>
                 <p class="section-subtitle">Manage your account details and gaming stats.</p>
                 
-                <div class="profile-card" style="background-color: #171a21; border: 1px solid #2a475e; padding: 20px; border-radius: 6px; max-width: 500px;">
-                    <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px;">
-                        <div style="width: 60px; height: 60px; background-color: #2a475e; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.8rem;">👤</div>
+                <div class="profile-card-box">
+                    <div class="profile-card-header">
+                        <div class="profile-avatar">👤</div>
                         <div>
-                            <h3 id="profile-username" style="color: #66c0f4; margin: 0;">Gamer</h3>
-                            <p style="color: #8f98a0; font-size: 0.85rem; margin: 4px 0 0 0;">Member of GameZone</p>
+                            <h3 id="profile-username" class="profile-username-title">Gamer</h3>
+                            <p class="profile-member-text">Member of GameZone</p>
                         </div>
                     </div>
                     
-                    <div style="border-top: 1px solid #2a475e; padding-top: 15px; display: flex; flex-direction: column; gap: 10px;">
-                        <p style="color: #c7d5e0; margin: 0;">🎮 Games in Library: <strong id="profile-games-count" style="color: #66c0f4;">0</strong></p>
-                        <p style="color: #c7d5e0; margin: 0;">💬 Community Posts: <strong id="profile-posts-count" style="color: #66c0f4;">0</strong></p>
+                    <div class="profile-stats">
+                        <p class="profile-stat-item">🎮 Games in Library: <strong id="profile-games-count" class="profile-stat-strong">0</strong></p>
+                        <p class="profile-stat-item">💬 Community Posts: <strong id="profile-posts-count" class="profile-stat-strong">0</strong></p>
                     </div>
                 </div>
             </section>
@@ -178,9 +174,9 @@
                 <h2>Admin Dashboard - Support Tickets</h2>
                 <p class="section-subtitle">Manage and review support tickets submitted by users.</p>
                 
-                <div style="background-color: #171a21; border: 1px solid #2a475e; padding: 20px; border-radius: 6px;">
+                <div class="admin-box">
                     <div id="admin-tickets-container">
-                        <p style="color: #8f98a0;">Loading tickets...</p>
+                        <p class="admin-loading-text">Loading tickets...</p>
                     </div>
                 </div>
             </section>

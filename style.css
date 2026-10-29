@@ -1,4 +1,6 @@
-/* --- 1. CONFIGURAZIONE GLOBALE & COLORI STEAM --- */
+/* ==========================================================================
+   1. CONFIGURAZIONE GLOBALE & COLORI STEAM
+   ========================================================================== */
 * {
     margin: 0;
     padding: 0;
@@ -14,7 +16,9 @@ body {
     flex-direction: column;
 }
 
-/* --- 2. STILE PAGINA LOGIN (login.html) --- */
+/* ==========================================================================
+   2. PAGINE DI AUTENTICAZIONE (LOGIN & REGISTER) & MODALE
+   ========================================================================== */
 .login-body {
     background: linear-gradient(135deg, #1b2838 0%, #171a21 100%);
     justify-content: center;
@@ -129,7 +133,110 @@ body {
     text-decoration: none;
 }
 
-/* --- 3. STILE HEADER HOME (index.html) --- */
+.error-msg-text {
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+/* Modale Reset Password */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-box {
+    background: #1b2838;
+    border: 1px solid #2a475e;
+    padding: 30px;
+    border-radius: 8px;
+    width: 350px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+.modal-title {
+    color: #66c0f4;
+    margin-bottom: 15px;
+}
+
+.modal-input-group {
+    margin-bottom: 15px;
+}
+
+.modal-input-group-last {
+    margin-bottom: 20px;
+}
+
+.modal-label {
+    color: #c7d5e0;
+    font-size: 0.9rem;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.modal-input {
+    width: 100%;
+    padding: 10px;
+    background: #323f4d;
+    border: 1px solid #10141b;
+    color: white;
+    border-radius: 4px;
+    outline: none;
+}
+
+.modal-input:focus {
+    border-color: #66c0f4;
+}
+
+.modal-btn-group {
+    display: flex;
+    gap: 10px;
+}
+
+.modal-confirm-btn {
+    flex: 1;
+    background: #2a475e;
+    color: #66c0f4;
+    border: 1px solid #66c0f4;
+    padding: 10px;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+
+.modal-confirm-btn:hover {
+    background: #66c0f4;
+    color: #1b2838;
+}
+
+.modal-cancel-btn {
+    flex: 1;
+    background: #3b1d1d;
+    color: #ff4d4d;
+    border: 1px solid #ff4d4d;
+    padding: 10px;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+
+.modal-cancel-btn:hover {
+    background: #ff4d4d;
+    color: white;
+}
+
+/* ==========================================================================
+   3. HEADER & NAVIGAZIONE HOME
+   ========================================================================== */
 header {
     background-color: #171a21;
     border-bottom: 2px solid #2a475e;
@@ -175,7 +282,11 @@ header nav ul li a:hover {
     font-size: 0.9rem;
 }
 
-#logout-btn {
+.logout-link {
+    margin-left: 15px;
+    color: #ff4d4d;
+    text-decoration: none;
+    font-weight: bold;
     background-color: #2a475e;
     padding: 6px 12px;
     border-radius: 4px;
@@ -183,18 +294,28 @@ header nav ul li a:hover {
     transition: background 0.2s;
 }
 
-#logout-btn:hover {
+.logout-link:hover {
     background-color: #c0392b;
     color: white !important;
 }
 
-/* --- 4. MAIN & STORE --- */
+/* ==========================================================================
+   4. MAIN, STORE & PROFILO
+   ========================================================================== */
 main {
     flex: 1;
     padding: 30px 40px;
     max-width: 1200px;
     margin: 0 auto;
     width: 100%;
+}
+
+.store-controls-flex {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 25px;
+    align-items: center;
+    flex-wrap: wrap;
 }
 
 #search-bar, 
@@ -333,17 +454,64 @@ main {
     font-size: 1.1rem;
 }
 
-/* --- 5. FOOTER --- */
-footer {
+/* Profile Box Styles */
+.profile-card-box {
     background-color: #171a21;
-    border-top: 1px solid #2a475e;
-    text-align: center;
+    border: 1px solid #2a475e;
     padding: 20px;
-    color: #8f98a0;
-    font-size: 0.8rem;
+    border-radius: 6px;
+    max-width: 500px;
 }
 
-/* --- 6. COMMUNITY HUB (STILI UNIFORMI & PULITI) --- */
+.profile-card-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.profile-avatar {
+    width: 60px;
+    height: 60px;
+    background-color: #2a475e;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+}
+
+.profile-username-title {
+    color: #66c0f4;
+    margin: 0;
+}
+
+.profile-member-text {
+    color: #8f98a0;
+    font-size: 0.85rem;
+    margin: 4px 0 0 0;
+}
+
+.profile-stats {
+    border-top: 1px solid #2a475e;
+    padding-top: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.profile-stat-item {
+    color: #c7d5e0;
+    margin: 0;
+}
+
+.profile-stat-strong {
+    color: #66c0f4;
+}
+
+/* ==========================================================================
+   5. COMMUNITY HUB (POST, TOPIC & EMOJI)
+   ========================================================================== */
 .section-subtitle {
     color: #8f98a0;
     margin-bottom: 20px;
@@ -371,7 +539,6 @@ footer {
     background-color: #47bfff;
 }
 
-/* Topic Bar */
 .community-topics-bar {
     display: flex;
     gap: 10px;
@@ -398,7 +565,6 @@ footer {
     border-color: #66c0f4;
 }
 
-/* Community Box Creation */
 .community-box {
     background-color: #171a21;
     border: 1px solid #2a475e;
@@ -452,7 +618,6 @@ footer {
     font-weight: bold;
 }
 
-/* ALLINEAMENTO E DIMENSIONI IDENTICHE PER TENDINA E PULSANTE EMOJI */
 .topic-select-dropdown,
 .emoji-toggle-btn {
     height: 38px;
@@ -483,7 +648,6 @@ footer {
     background-color: #325573;
 }
 
-/* Community Feed & Posts */
 #community-feed {
     display: flex;
     flex-direction: column;
@@ -680,7 +844,9 @@ footer {
     background-color: #2a475e;
 }
 
-/* --- 7. SUPPORT SECTION --- */
+/* ==========================================================================
+   6. SUPPORT SECTION & ADMIN DASHBOARD
+   ========================================================================== */
 .support-wrapper {
     max-width: 600px;
     margin: 0 auto;
@@ -735,7 +901,29 @@ footer {
     display: none;
 }
 
-/* --- 8. TOAST NOTIFICATION --- */
+.admin-box {
+    background-color: #171a21;
+    border: 1px solid #2a475e;
+    padding: 20px;
+    border-radius: 6px;
+}
+
+.admin-loading-text {
+    color: #8f98a0;
+}
+
+/* ==========================================================================
+   7. FOOTER & NOTIFICHE TOAST
+   ========================================================================== */
+footer {
+    background-color: #171a21;
+    border-top: 1px solid #2a475e;
+    text-align: center;
+    padding: 20px;
+    color: #8f98a0;
+    font-size: 0.8rem;
+}
+
 #toast-notification {
     position: fixed;
     bottom: 25px;
@@ -746,7 +934,6 @@ footer {
     border: 1px solid #66c0f4;
     border-radius: 6px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-    font-size: 0.9rem;
     z-index: 9999;
     display: flex;
     align-items: center;

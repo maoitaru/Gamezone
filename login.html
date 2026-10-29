@@ -31,7 +31,7 @@
 
                 <div class="input-group">
                     <label for="password">Password</label>
-                <input type="password" id="password" name="password" placeholder="Password" required autocomplete="current-password">
+                    <input type="password" id="password" name="password" placeholder="Password" required autocomplete="current-password">
                 </div>
 
                 <!-- Opzioni extra (es. Ricordami) -->
@@ -42,9 +42,9 @@
                     <a href="#forgot" class="forgot-link">Forgot password?</a>
                 </div>
 
-                <p id="error-message" style="margin-top: 10px; font-weight: bold;"></p>
+                <p id="error-message" class="error-msg-text"></p>
 
-                <!-- Pulsante diInvio (per ora punta direttamente a index.html) -->
+                <!-- Pulsante di Invio -->
                 <button type="submit" class="btn-signin">Sign In</button>
 
             </form>
@@ -62,21 +62,21 @@
         <p>&copy; 2026 GameZone Corporation. All rights reserved.</p>
     </footer>
 
-<!-- MODALE FORGOT PASSWORD PERSONALIZZATA -->
-    <div id="forgot-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); justify-content: center; align-items: center; z-index: 1000;">
-        <div style="background: #1b2838; border: 1px solid #2a475e; padding: 30px; border-radius: 8px; width: 350px; box-shadow: 0 8px 24px rgba(0,0,0,0.5);">
-            <h3 style="color: #66c0f4; margin-bottom: 15px;">Reset Password</h3>
-            <div class="input-group" style="margin-bottom: 15px;">
-                <label for="reset-username" style="color: #c7d5e0; font-size: 0.9rem; display: block; margin-bottom: 5px;">Account Name</label>
-                <input type="text" id="reset-username" placeholder="Enter your username" style="width: 100%; padding: 10px; background: #323f4d; border: 1px solid #10141b; color: white; border-radius: 4px;">
+    <!-- MODALE FORGOT PASSWORD -->
+    <div id="forgot-modal" class="modal-overlay">
+        <div class="modal-box">
+            <h3 class="modal-title">Reset Password</h3>
+            <div class="input-group modal-input-group">
+                <label for="reset-username" class="modal-label">Account Name</label>
+                <input type="text" id="reset-username" placeholder="Enter your username" class="modal-input">
             </div>
-            <div class="input-group" style="margin-bottom: 20px;">
-                <label for="reset-new-password" style="color: #c7d5e0; font-size: 0.9rem; display: block; margin-bottom: 5px;">New Password</label>
-                <input type="password" id="reset-new-password" placeholder="Enter new password" style="width: 100%; padding: 10px; background: #323f4d; border: 1px solid #10141b; color: white; border-radius: 4px;">
+            <div class="input-group modal-input-group-last">
+                <label for="reset-new-password" class="modal-label">New Password</label>
+                <input type="password" id="reset-new-password" placeholder="Enter new password" class="modal-input">
             </div>
-            <div style="display: flex; gap: 10px;">
-                <button type="button" id="submit-reset-btn" style="flex: 1; background: #2a475e; color: #66c0f4; border: 1px solid #66c0f4; padding: 10px; border-radius: 4px; font-weight: bold; cursor: pointer;">Confirm</button>
-                <button type="button" id="close-reset-btn" style="flex: 1; background: #3b1d1d; color: #ff4d4d; border: 1px solid #ff4d4d; padding: 10px; border-radius: 4px; font-weight: bold; cursor: pointer;">Cancel</button>
+            <div class="modal-btn-group">
+                <button type="button" id="submit-reset-btn" class="modal-confirm-btn">Confirm</button>
+                <button type="button" id="close-reset-btn" class="modal-cancel-btn">Cancel</button>
             </div>
         </div>
     </div>
