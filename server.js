@@ -72,6 +72,29 @@ app.post('/api/login', (req, res) => {
     }
 });
 
+// --- API: FORGOT PASSWORD ---
+app.post('/api/forgot-password', (req, res) => {
+    const { username, newPassword } = req.body;
+    
+    const usersFile = path.join(__dirname, 'users.json');
+    if (!fs.existsSync(usersFile)) {
+        return res.json({ success: false, message: 'User not found.' });
+    }
+
+    let users = JSON.parse(fs.readFileSync(usersFile, 'utf8'));
+    const userIndex = users.findIndex(u => u.username === username);
+
+    if (userIndex === -1) {
+        return res.json({ success: false, message: 'Username does not exist!' });
+    }
+
+    // Aggiorna la password
+    users[userIndex].password = newPassword;
+    fs.writeFileSync(usersFile, JSON.stringify(users, null, 2));
+
+    res.json({ success: true, message: 'Password updated successfully!' });
+});
+
 // --- API LIBRERIA GIOCHI ---
 app.get('/api/library/:username', (req, res) => {
     const users = getUsers();

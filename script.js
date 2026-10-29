@@ -20,17 +20,44 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 4000);
     }
 
-    // --- PARTE 1: GESTIONE LOGIN ---
+// --- PARTE 1: GESTIONE LOGIN, REMEMBER ME & FORGOT PASSWORD ---
     const loginForm = document.getElementById('login-form');
     if (loginForm) {
         const usernameInput = document.getElementById('username');
         const passwordInput = document.getElementById('password');
+        const rememberCheckbox = document.querySelector('input[name="remember"]');
         const errorMessage = document.getElementById('error-message');
+        const forgotLink = document.querySelector('.forgot-link');
 
+        // Elementi Modale Forgot Password
+        const forgotModal = document.getElementById('forgot-modal');
+        const resetUsernameInput = document.getElementById('reset-username');
+        const resetNewPasswordInput = document.getElementById('reset-new-password');
+        const submitResetBtn = document.getElementById('submit-reset-btn');
+        const closeResetBtn = document.getElementById('close-reset-btn');
+
+        // 1. Se c'è un utente salvato in precedenza, auto-compila username e password
+        const rememberedUser = localStorage.getItem('gameZoneRememberedUser');
+        const rememberedPass = localStorage.getItem('gameZoneRememberedPass');
+        if (rememberedUser && usernameInput) {
+            usernameInput.value = rememberedUser;
+            if (rememberedPass && passwordInput) passwordInput.value = rememberedPass;
+            if (rememberCheckbox) rememberCheckbox.checked = true;
+        }
+
+        // 2. Invio del Login con gestione Remember me (utente + password)
         loginForm.addEventListener('submit', async function(event) {
             event.preventDefault();
             const username = usernameInput.value.trim();
             const password = passwordInput.value.trim();
+
+            if (rememberCheckbox && rememberCheckbox.checked) {
+                localStorage.setItem('gameZoneRememberedUser', username);
+                localStorage.setItem('gameZoneRememberedPass', password);
+            } else {
+                localStorage.removeItem('gameZoneRememberedUser');
+                localStorage.removeItem('gameZoneRememberedPass');
+            }
 
             try {
                 const response = await fetch('/api/login', {
@@ -53,6 +80,54 @@ document.addEventListener('DOMContentLoaded', function() {
                 errorMessage.style.color = '#ff4d4d';
             }
         });
+
+        // 3. Apertura Modale Forgot Password al click sul link
+        if (forgotLink && forgotModal) {
+            forgotLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                forgotModal.style.display = 'flex'; // Mostra la modale centrale
+            });
+        }
+
+        // Chiusura Modale
+        if (closeResetBtn && forgotModal) {
+            closeResetBtn.addEventListener('click', function() {
+                forgotModal.style.display = 'none';
+            });
+        }
+
+        // Invio richiesta reset password dalla modale
+        if (submitResetBtn) {
+            submitResetBtn.addEventListener('click', async function() {
+                const username = resetUsernameInput.value.trim();
+                const newPassword = resetNewPasswordInput.value.trim();
+
+                if (!username || !newPassword) {
+                    showToast("Please fill in all fields!", "❌");
+                    return;
+                }
+
+                try {
+                    const response = await fetch('/api/forgot-password', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ username, newPassword })
+                    });
+
+                    const data = await response.json();
+                    if (data.success) {
+                        showToast("Password updated successfully!", "🔑");
+                        forgotModal.style.display = 'none'; // Chiude la modale
+                        resetUsernameInput.value = "";
+                        resetNewPasswordInput.value = "";
+                    } else {
+                        showToast(data.message || "Error resetting password.", "❌");
+                    }
+                } catch (err) {
+                    showToast("Server connection error!", "❌");
+                }
+            });
+        }
     }
 
     // --- GESTIONE REGISTRAZIONE (FETCH BACKEND) ---
