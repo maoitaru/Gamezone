@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const data = await response.json();
 
                 if (data.success) {
-                    alert('Registration successful! You can now sign in.');
+                    showToast('Registration successful! You can now sign in.');
                     window.location.href = 'login.html';
                 } else {
                     registerErrorMessage.textContent = data.message || 'Error during registration.';
@@ -171,7 +171,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const data = await res.json();
             showToast(data.message, "🛒");
         } catch (err) {
-            alert("Errore durante l'aggiunta alla libreria.");
+            showToast("Error adding to library.");
         }
     }
 
@@ -447,7 +447,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             if (data.success) {
                                 renderCommunityPosts();
                             } else {
-                                alert(data.message);
+                                showToast(data.message);
                             }
                         }
                     });
@@ -463,7 +463,7 @@ document.addEventListener('DOMContentLoaded', function() {
 if (postSubmitBtn) {
         postSubmitBtn.addEventListener('click', async () => {
             const text = communityPostInput.value.trim();
-            if (!text) return alert("Write something before posting!");
+            if (!text) return showToast("Write something before posting!");
 
             try {
                 const res = await fetch('/api/posts', {
@@ -478,7 +478,7 @@ if (postSubmitBtn) {
                     renderCommunityPosts();
                 }
             } catch (err) {
-                alert("Error sending post.");
+                showToast("Error sending post.");
             }
         });
     }
@@ -513,7 +513,7 @@ if (supportForm) {
                     }
                 } catch (error) {
                     console.error("Error submitting support ticket:", error);
-                    alert("Error sending ticket to server.");
+                    showToast("Error sending ticket to server.");
                 }
             }
         });
