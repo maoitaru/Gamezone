@@ -64,18 +64,27 @@
                 </div>
             </div>
 
-            <!-- Vetrina in evidenza -->
-            <section id="featured-game">
-                <h2>Featured & Recommended</h2>
-                <div class="featured-banner">
-                    <div class="featured-info">
-                        <h3>Cyber Quest 2077</h3>
-                        <p>Experience the ultimate futuristic open-world RPG.</p>
-                        <span class="price">$59.99</span>
-                        <button type="button" class="buy-featured-btn">Add to Cart</button>
-                    </div>
-                </div>
-            </section>
+<!-- BANNER IN VETRINA SCORREVOLE (3 GIOCHI FISSI) -->
+<div class="featured-slider-container">
+    <h3 class="store-section-title">FEATURED & RECOMMENDED</h3>
+    <div class="featured-banner-card" id="featured-banner-card">
+        <div class="featured-banner-bg" id="featured-banner-bg"></div>
+        <div class="featured-banner-content">
+            <h2 id="featured-title">Cyber Quest 2077</h2>
+            <p id="featured-desc">Experience the ultimate futuristic open-world RPG.</p>
+            <div class="featured-banner-action">
+                <span class="price" id="featured-price">$59.99</span>
+                <button type="button" id="featured-add-btn" class="support-submit-btn">Add to Library</button>
+            </div>
+        </div>
+    </div>
+    <!-- Controlli a 3 pallini fissi -->
+    <div class="featured-slider-controls">
+        <button type="button" class="slider-dot active" data-index="0"></button>
+        <button type="button" class="slider-dot" data-index="1"></button>
+        <button type="button" class="slider-dot" data-index="2"></button>
+    </div>
+</div>
 
             <!-- Griglia dei giochi generati -->
             <section id="games-grid">

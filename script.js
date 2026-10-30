@@ -1103,4 +1103,76 @@ function renderStoreGames(games) {
             });
         });
     }
+    // --- BANNER VETRINA FISSO (3 TITOLI) ---
+    const featuredGames = [
+        {
+            title: "Cyber Quest 2077",
+            genre: "Action",
+            price: "$59.99",
+            image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800",
+            description: "Experience the ultimate futuristic open-world RPG with breathtaking next-gen graphics."
+        },
+        {
+            title: "Galactic Odyssey V",
+            genre: "Sci-Fi",
+            price: "$49.99",
+            image: "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=800",
+            description: "Explore uncharted star systems and build your interstellar empire among the stars."
+        },
+        {
+            title: "Shadow Valhalla",
+            genre: "RPG",
+            price: "$39.99",
+            image: "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=800",
+            description: "A dark mythological journey through legendary realms and fierce monster battles."
+        }
+    ];
+
+    let currentFeaturedIndex = 0;
+    const bannerCard = document.getElementById('featured-banner-card');
+    const bannerBg = document.getElementById('featured-banner-bg');
+    const bannerTitle = document.getElementById('featured-title');
+    const bannerDesc = document.getElementById('featured-desc');
+    const bannerPrice = document.getElementById('featured-price');
+    const bannerAddBtn = document.getElementById('featured-add-btn');
+    const sliderDots = document.querySelectorAll('.slider-dot');
+
+    function updateFeaturedBanner(index) {
+        const game = featuredGames[index];
+        currentFeaturedIndex = index;
+
+        if (bannerBg) bannerBg.style.backgroundImage = `url('${game.image}')`;
+        if (bannerTitle) bannerTitle.textContent = game.title;
+        if (bannerDesc) bannerDesc.textContent = game.description;
+        if (bannerPrice) bannerPrice.textContent = game.price;
+
+        sliderDots.forEach((dot, i) => {
+            if (i === index) dot.classList.add('active');
+            else dot.classList.remove('active');
+        });
+    }
+
+    sliderDots.forEach((dot, index) => {
+        dot.addEventListener('click', (e) => {
+            e.stopPropagation();
+            updateFeaturedBanner(index);
+        });
+    });
+
+    if (bannerCard) {
+        bannerCard.addEventListener('click', () => {
+            const game = featuredGames[currentFeaturedIndex];
+            openGameDetailModal(game);
+        });
+    }
+
+    if (bannerAddBtn) {
+        bannerAddBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const game = featuredGames[currentFeaturedIndex];
+            addToLibrary(game);
+        });
+    }
+
+    updateFeaturedBanner(0);
 });
