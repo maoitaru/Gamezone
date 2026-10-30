@@ -181,22 +181,50 @@ app.post('/api/posts', (req, res) => {
 
 // --- API COMMUNITY HUB: RECUPERO POST ---
 app.get('/api/posts', (req, res) => {
-    const posts = getPosts();
+    let posts = getPosts();
+    
+    // Sincronizza sempre il contatore dei like con la lunghezza reale di likedBy
+    posts = posts.map(post => {
+        if (!post.likedBy) post.likedBy = [];
+        post.likes = post.likedBy.length;
+        return post;
+    });
+
     res.json(posts);
 });
 
-// Aggiungi un Like a un post
+// --- GESTIONE LIKE UNICO PER UTENTE ---
 app.post('/api/posts/like', (req, res) => {
-    const { postId } = req.body;
-    const posts = getPosts();
+    const { postId, username } = req.body;
+    let posts = getPosts();
     const post = posts.find(p => p.id === postId);
 
-    if (post) {
-        post.likes = (post.likes || 0) + 1;
-        savePosts(posts);
-        return res.json({ success: true, likes: post.likes });
+    if (!post) {
+        return res.json({ success: false, message: "Post not found" });
     }
-    res.status(404).json({ success: false, message: 'Post not found' });
+
+    // Inizializza l'array dei like se non esiste
+    if (!post.likedBy) {
+        post.likedBy = [];
+    }
+
+    const userIndex = post.likedBy.indexOf(username);
+
+    if (userIndex > -1) {
+        // Se l'utente ha già messo il like, glie lo rimuoviamo (Toggle)
+        post.likedBy.splice(userIndex, 1);
+    } else {
+        // Altrimenti glielo aggiungiamo
+        post.likedBy.push(username);
+    }
+
+    savePosts(posts);
+
+    res.json({
+        success: true,
+        likes: post.likedBy.length,
+        hasLiked: post.likedBy.includes(username)
+    });
 });
 
 // --- API COMMUNITY HUB: AGGIUNTA COMMENTI ---
@@ -270,6 +298,18 @@ app.post('/api/support', (req, res) => {
 
     console.log(`📩 Nuovo ticket di supporto salvato: ${newTicket.ticketId}`);
     res.json({ success: true, ticketId: newTicket.ticketId });
+});
+
+// --- VERIFICA ACCESSO ADMIN ---
+app.post('/api/admin/verify', (req, res) => {
+    const { password } = req.body;
+    const ADMIN_SECRET_PASSWORD = "admin123"; // Puoi cambiare questa password come preferisci
+
+    if (password === ADMIN_SECRET_PASSWORD) {
+        res.json({ success: true });
+    } else {
+        res.json({ success: false, message: "Incorrect admin password!" });
+    }
 });
 
 app.listen(PORT, () => {

@@ -179,7 +179,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // --- PARTE 2: CONTROLLO ACCESSO HOME ---
+// --- PARTE 2: CONTROLLO ACCESSO HOME & MENU PROFILO ---
     const welcomeUserSpan = document.getElementById('welcome-user');
     const loggedUser = localStorage.getItem('gameZoneUser');
 
@@ -188,6 +188,39 @@ document.addEventListener('DOMContentLoaded', function() {
             welcomeUserSpan.textContent = `Logged in as: ${loggedUser}`;
         } else {
             window.location.href = 'login.html';
+        }
+    }
+
+    // Gestione Menu a tendina Profilo (Header)
+const profileIconBtn = document.getElementById('profile-icon-btn');
+    const profileDropdown = document.getElementById('profile-dropdown');
+    const goToAdminBtn = document.getElementById('go-to-admin-btn');
+
+    if (profileIconBtn && profileDropdown) {
+        profileIconBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            profileDropdown.classList.toggle('show');
+        });
+
+        document.addEventListener('click', () => {
+            profileDropdown.classList.remove('show');
+        });
+    }
+
+    if (goToAdminBtn) {
+        if (loggedUser === 'admin') {
+            goToAdminBtn.style.display = 'block';
+        } else {
+            goToAdminBtn.style.display = 'none';
+        }
+    }
+
+    // Mostra il link Admin solo se l'utente è "admin"
+    if (goToAdminBtn) {
+        if (loggedUser === 'admin') {
+            goToAdminBtn.style.display = 'block';
+        } else {
+            goToAdminBtn.style.display = 'none';
         }
     }
 
@@ -267,8 +300,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const storeLink = document.querySelector('nav a[href="#store"]');
     const libraryLink = document.querySelector('nav a[href="#library"]');
     const communityLink = document.querySelector('nav a[href="#community"]');
-    const profileLink = document.querySelector('nav a[href="#profile"]');
-    const adminLink = document.querySelector('nav a[href="#admin"]');
     const supportLink = document.querySelector('nav a[href="#support"]');
 
     const storeView = document.getElementById('store-view');
@@ -278,23 +309,141 @@ document.addEventListener('DOMContentLoaded', function() {
     const adminView = document.getElementById('admin-view');
     const supportView = document.getElementById('support-view');
 
+    const goToProfileBtn = document.getElementById('go-to-profile-btn');
+    const goToAdminBtnDropdown = document.getElementById('go-to-admin-btn');
+
     function hideAllViews() {
         if (storeView) storeView.style.display = 'none';
         if (libraryView) libraryView.style.display = 'none';
         if (communityView) communityView.style.display = 'none';
-        if (profileView) profileView.style.display = 'none';
-        if (adminView) adminView.style.display = 'none';
         if (supportView) supportView.style.display = 'none';
     }
 
-    if (storeLink) storeLink.addEventListener('click', (e) => { e.preventDefault(); hideAllViews(); storeView.style.display = 'block'; });
+if (storeLink) storeLink.addEventListener('click', (e) => { e.preventDefault(); hideAllViews(); storeView.style.display = 'block'; });
     if (libraryLink) libraryLink.addEventListener('click', (e) => { e.preventDefault(); hideAllViews(); libraryView.style.display = 'block'; renderLibrary(); });
     if (communityLink) communityLink.addEventListener('click', (e) => { e.preventDefault(); hideAllViews(); communityView.style.display = 'block'; renderCommunityPosts(); });
-    if (profileLink) {
-        profileLink.addEventListener('click', async (e) => {
+    if (supportLink) supportLink.addEventListener('click', (e) => { e.preventDefault(); hideAllViews(); supportView.style.display = 'block'; });
+
+    // --- FUNZIONE PER CARICARE I TICKET ADMIN ---
+    async function loadAdminTickets() {
+        const ticketsContainer = document.getElementById('admin-tickets-container');
+        if (!ticketsContainer) return;
+        ticketsContainer.innerHTML = `<p class="admin-loading-text">Loading support tickets...</p>`;
+
+        try {
+            const res = await fetch('/api/support/tickets');
+            const tickets = await res.json();
+
+            ticketsContainer.innerHTML = "";
+
+            if (tickets.length === 0) {
+                ticketsContainer.innerHTML = `<p style="color: #8f98a0;">No support tickets found. Everything is running smoothly!</p>`;
+                return;
+            }
+
+            const table = document.createElement('table');
+            table.style.cssText = "width: 100%; border-collapse: collapse; color: #c7d5e0; font-size: 0.9rem;";
+            
+            table.innerHTML = `
+                <thead>
+                    <tr style="border-bottom: 1px solid #2a475e; text-align: left; color: #66c0f4;">
+                        <th style="padding: 10px;">ID</th>
+                        <th style="padding: 10px;">User</th>
+                        <th style="padding: 10px;">Issue Type</th>
+                        <th style="padding: 10px;">Message</th>
+                    </tr>
+                </thead>
+                <tbody id="tickets-table-body"></tbody>
+            `;
+
+            const tbody = table.querySelector('#tickets-table-body');
+
+            tickets.forEach(ticket => {
+                const tr = document.createElement('tr');
+                tr.style.borderBottom = "1px solid #1b2838";
+                tr.innerHTML = `
+                    <td style="padding: 10px; color: #8f98a0; font-family: monospace;">${ticket.ticketId || ticket.id || 'N/A'}</td>
+                    <td style="padding: 10px; color: #66c0f4; font-weight: bold;">${ticket.username}</td>
+                    <td style="padding: 10px;">${ticket.issueType}</td>
+                    <td style="padding: 10px; color: #c7d5e0; max-width: 300px; word-break: break-word;">${ticket.message}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            ticketsContainer.appendChild(table);
+
+        } catch (err) {
+            console.error("Errore caricamento ticket:", err);
+            ticketsContainer.innerHTML = `<p style="color: #ff4d4d;">Error loading support tickets from server.</p>`;
+        }
+    }
+
+    // --- GESTIONE MODALE ACCESSO ADMIN ---
+    const adminLoginModal = document.getElementById('admin-login-modal');
+    const submitAdminLoginBtn = document.getElementById('submit-admin-login');
+    const cancelAdminLoginBtn = document.getElementById('cancel-admin-login');
+    const adminPasswordInput = document.getElementById('admin-password-input');
+    const adminLoginError = document.getElementById('admin-login-error');
+
+    if (goToAdminBtnDropdown) {
+        goToAdminBtnDropdown.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (adminLoginModal) {
+                adminLoginModal.style.display = 'flex';
+                adminPasswordInput.value = "";
+                adminLoginError.style.display = 'none';
+            }
+        });
+    }
+
+    if (cancelAdminLoginBtn && adminLoginModal) {
+        cancelAdminLoginBtn.addEventListener('click', () => {
+            adminLoginModal.style.display = 'none';
+        });
+    }
+
+    if (submitAdminLoginBtn) {
+        submitAdminLoginBtn.addEventListener('click', async () => {
+            const password = adminPasswordInput.value.trim();
+            if (!password) {
+                adminLoginError.textContent = "Please enter the password.";
+                adminLoginError.style.display = 'block';
+                return;
+            }
+
+            try {
+                const res = await fetch('/api/admin/verify', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ password })
+                });
+                const data = await res.json();
+
+                if (data.success) {
+                    adminLoginModal.style.display = 'none';
+                    showToast("Admin access granted!", "🔐");
+                    
+                    hideAllViews();
+                    if (adminView) adminView.style.display = 'block';
+                    
+                    // Chiama la funzione per caricare i ticket
+                    loadAdminTickets();
+                } else {
+                    adminLoginError.textContent = data.message;
+                    adminLoginError.style.display = 'block';
+                }
+            } catch (err) {
+                showToast("Server connection error!", "❌");
+            }
+        });
+    }
+
+    // --- GESTIONE VISTA PROFILO DAL MENU A TENDINA ---
+    if (goToProfileBtn) {
+        goToProfileBtn.addEventListener('click', async (e) => {
             e.preventDefault();
             hideAllViews();
-            profileView.style.display = 'block';
+            if (profileView) profileView.style.display = 'block';
 
             document.getElementById('profile-username').textContent = loggedUser || "Guest";
 
@@ -316,64 +465,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-    if (adminLink) {
-        adminLink.addEventListener('click', async (e) => {
-            e.preventDefault();
-            hideAllViews();
-            adminView.style.display = 'block';
-
-            const ticketsContainer = document.getElementById('admin-tickets-container');
-            ticketsContainer.innerHTML = `<p style="color: #8f98a0;">Loading support tickets...</p>`;
-
-            try {
-                const res = await fetch('/api/support/tickets');
-                const tickets = await res.json();
-
-                ticketsContainer.innerHTML = "";
-
-                if (tickets.length === 0) {
-                    ticketsContainer.innerHTML = `<p style="color: #8f98a0;">No support tickets found. Everything is running smoothly!</p>`;
-                    return;
-                }
-
-                const table = document.createElement('table');
-                table.style.cssText = "width: 100%; border-collapse: collapse; color: #c7d5e0; font-size: 0.9rem;";
-                
-                table.innerHTML = `
-                    <thead>
-                        <tr style="border-bottom: 1px solid #2a475e; text-align: left; color: #66c0f4;">
-                            <th style="padding: 10px;">ID</th>
-                            <th style="padding: 10px;">User</th>
-                            <th style="padding: 10px;">Issue Type</th>
-                            <th style="padding: 10px;">Message</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tickets-table-body"></tbody>
-                `;
-
-                const tbody = table.querySelector('#tickets-table-body');
-
-                tickets.forEach(ticket => {
-                    const tr = document.createElement('tr');
-                    tr.style.borderBottom = "1px solid #1b2838";
-                    tr.innerHTML = `
-                        <td style="padding: 10px; color: #8f98a0; font-family: monospace;">${ticket.id || 'N/A'}</td>
-                        <td style="padding: 10px; color: #66c0f4; font-weight: bold;">${ticket.username}</td>
-                        <td style="padding: 10px;">${ticket.issueType}</td>
-                        <td style="padding: 10px; color: #c7d5e0; max-width: 300px; word-break: break-word;">${ticket.message}</td>
-                    `;
-                    tbody.appendChild(tr);
-                });
-
-                ticketsContainer.appendChild(table);
-
-            } catch (err) {
-                console.error("Errore caricamento ticket:", err);
-                ticketsContainer.innerHTML = `<p style="color: #ff4d4d;">Error loading support tickets from server.</p>`;
-            }
-        });
-    }
-    if (supportLink) supportLink.addEventListener('click', (e) => { e.preventDefault(); hideAllViews(); supportView.style.display = 'block'; });
 
     // --- GENERATORE STORE & FILTRI ---
     const dynamicGameList = document.getElementById('dynamic-game-list');
@@ -558,16 +649,39 @@ document.addEventListener('DOMContentLoaded', function() {
                     </div>
                 `;
 
-                // Gestore Like
-                postCard.querySelector('.like-btn').addEventListener('click', async () => {
+// Verifica se l'utente attuale ha già messo like a questo post
+                const userHasLiked = post.likedBy && post.likedBy.includes(loggedUser);
+                const likeBtn = postCard.querySelector('.like-btn');
+                
+                if (userHasLiked) {
+                    likeBtn.style.backgroundColor = '#66c0f4';
+                    likeBtn.style.color = '#10141b';
+                }
+
+                // Gestore Like (Unico con Toggle)
+                likeBtn.addEventListener('click', async () => {
+                    if (!loggedUser) return showToast("You must be logged in to like posts!", "❌");
+
                     const response = await fetch('/api/posts/like', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ postId: post.id })
+                        body: JSON.stringify({ postId: post.id, username: loggedUser })
                     });
                     const data = await response.json();
+                    
                     if (data.success) {
                         postCard.querySelector('.like-count').textContent = data.likes;
+                        
+                        // Aggiorna lo stile del bottone in tempo reale
+                        if (data.hasLiked) {
+                            likeBtn.style.backgroundColor = '#66c0f4';
+                            likeBtn.style.color = '#10141b';
+                            showToast("Like added!", "👍");
+                        } else {
+                            likeBtn.style.backgroundColor = '#2a475e';
+                            likeBtn.style.color = '#66c0f4';
+                            showToast("Like removed.", "👍");
+                        }
                     }
                 });
 

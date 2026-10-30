@@ -8,8 +8,7 @@
 </head>
 <body>
 
-    <!-- 1. HEADER (STILE STEAM: LOGO, NAV, E STATO UTENTE) -->
-    <header>
+<header>
         <div class="logo">
             <h1>⚡ GAMEZONE</h1>
         </div>
@@ -18,14 +17,24 @@
                 <li><a href="#store">Store</a></li>
                 <li><a href="#library">Library</a></li>
                 <li><a href="#community">Community</a></li>
-                <li><a href="#profile">Profile</a></li>
-                <li><a href="#admin">Admin</a></li>
+                <!-- "Admin" rimosso da qui -->
                 <li><a href="#support">Support</a></li>
             </ul>
         </nav>
         <div class="user-panel">
             <span id="welcome-user"></span>
-            <a href="/login.html" id="logout-btn" class="logout-link">Sign Out</a>
+            
+            <!-- Icona del profilo con menu a tendina o interazione -->
+            <div class="profile-menu-container">
+                <button type="button" id="profile-icon-btn" class="profile-icon-btn" title="User Menu">
+                    👤
+                </button>
+                <div class="profile-dropdown-menu" id="profile-dropdown">
+                    <a href="#profile" id="go-to-profile-btn">My Profile</a>
+                    <a href="#admin" id="go-to-admin-btn" style="display: none;">Admin Dashboard</a>
+                    <a href="/login.html" id="logout-btn" class="logout-dropdown-link">Sign Out</a>
+                </div>
+            </div>
         </div>
     </header>
 
@@ -213,6 +222,23 @@
         </div>
 
     </main>
+
+    <!-- MODALE ACCESSO ADMIN -->
+<div id="admin-login-modal" class="modal-overlay">
+    <div class="modal-box">
+        <h3 class="modal-title">Admin Authentication</h3>
+        <p class="section-subtitle admin-modal-subtitle">Enter administrator password to continue.</p>
+        <div class="input-group modal-input-group-last">
+            <label for="admin-password-input" class="modal-label">Admin Password</label>
+            <input type="password" id="admin-password-input" placeholder="Enter admin password" class="modal-input">
+        </div>
+        <p id="admin-login-error" class="admin-error-text"></p>
+        <div class="modal-btn-group">
+            <button type="button" id="submit-admin-login" class="modal-confirm-btn">Access</button>
+            <button type="button" id="cancel-admin-login" class="modal-cancel-btn">Cancel</button>
+        </div>
+    </div>
+</div>
 
     <!-- 4. FOOTER -->
     <footer>

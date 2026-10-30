@@ -19,11 +19,13 @@
         "price": "$29.06",
         "image": "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=400"
       }
-    ]
+    ],
+    "failedAttempts": 0
   },
   {
     "username": "martinlarroza",
-    "password": "barbibusq"
+    "password": "barbibusq",
+    "failedAttempts": 0
   },
   {
     "username": "rima",
@@ -32,20 +34,8 @@
   },
   {
     "username": "jiji",
-    "password": "jiji",
+    "password": "jiji1",
     "library": [
-      {
-        "title": "Super Empire 1",
-        "genre": "Action",
-        "price": "Free to Play",
-        "image": "https://images.unsplash.com/photo-1612287230202-1ff1d85d1bdf?w=400"
-      },
-      {
-        "title": "Pixel Chronicles 2",
-        "genre": "Action",
-        "price": "$52.28",
-        "image": "https://images.unsplash.com/photo-1612287230202-1ff1d85d1bdf?w=400"
-      },
       {
         "title": "Galactic Chronicles 1",
         "genre": "Simulator",
@@ -83,5 +73,30 @@
     "username": "abba",
     "password": "abba",
     "library": []
+  },
+  {
+    "username": "biba",
+    "password": "biba",
+    "failedAttempts": 0,
+    "library": [
+      {
+        "title": "Retro Valhalla 3",
+        "genre": "Horror",
+        "price": "Free to Play",
+        "image": "https://images.unsplash.com/photo-1612287230202-1ff1d85d1bdf?w=400"
+      },
+      {
+        "title": "Dragon Protocol 3",
+        "genre": "Strategy",
+        "price": "$6.07",
+        "image": "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=400"
+      },
+      {
+        "title": "Pixel Quest 2",
+        "genre": "Simulator",
+        "price": "$12.83",
+        "image": "https://images.unsplash.com/photo-1612287230202-1ff1d85d1bdf?w=400"
+      }
+    ]
   }
 ]

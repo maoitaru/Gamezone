@@ -952,3 +952,87 @@ footer {
 #toast-notification .toast-icon {
     font-size: 1.2rem;
 }
+
+/* --- MENU PROFILO NELL'HEADER --- */
+.profile-menu-container {
+    position: relative;
+    display: inline-block;
+    margin-left: 10px;
+}
+
+.profile-icon-btn {
+    width: 38px;
+    height: 38px;
+    background-color: #2a475e;
+    border: 1px solid #66c0f4;
+    border-radius: 50%;
+    color: #66c0f4;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+}
+
+.profile-icon-btn:hover {
+    background-color: #66c0f4;
+    color: #171a21;
+    transform: scale(1.05);
+}
+
+.profile-dropdown-menu {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 110%;
+    background-color: #1b2838;
+    border: 1px solid #2a475e;
+    border-radius: 6px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+    width: 160px;
+    z-index: 1000;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.profile-dropdown-menu.show {
+    display: flex;
+}
+
+.profile-dropdown-menu a {
+    color: #c7d5e0;
+    padding: 10px 15px;
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: bold;
+    transition: background 0.2s, color 0.2s;
+}
+
+.profile-dropdown-menu a:hover {
+    background-color: #2a475e;
+    color: #66c0f4;
+}
+
+.logout-dropdown-link {
+    color: #ff4d4d !important;
+    border-top: 1px solid #2a475e;
+}
+
+.logout-dropdown-link:hover {
+    background-color: #3b1d1d !important;
+    color: white !important;
+}
+
+/* --- STILI AGGIUNTIVI PER MODALE ADMIN --- */
+.admin-modal-subtitle {
+    font-size: 0.85rem;
+    margin-bottom: 15px;
+}
+
+.admin-error-text {
+    color: #ff4d4d;
+    font-size: 0.85rem;
+    margin-bottom: 10px;
+    display: none;
+}

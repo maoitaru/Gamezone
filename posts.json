@@ -1,62 +1,17 @@
 [
   {
-    "id": "post-1793279544522",
-    "author": "jiji",
-    "topic": "LFG",
-    "text": "hhhhhhhhhhhhhhhhhhhhhhh\njjjjjjjjjjjjjjjjjjjjjjjjjjjjjj\nbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
-    "likes": 4,
-    "likedBy": [],
-    "comments": [],
-    "date": "29/10/2026 - 14:12"
-  },
-  {
-    "id": "post-1793279502575",
-    "author": "jiji",
-    "topic": "LFG",
-    "text": "🚀space",
-    "likes": 3,
-    "likedBy": [],
-    "comments": [],
-    "date": "29/10/2026 - 14:11"
-  },
-  {
-    "id": "post-1793279036923",
-    "author": "jiji",
-    "topic": "LFG",
-    "text": "aaaaaaaaaaaa",
-    "likes": 0,
-    "likedBy": [],
-    "comments": [],
-    "date": "29/10/2026 - 14:03"
-  },
-  {
-    "id": "post-1793278688199",
-    "author": "jiji",
+    "id": "post-1793352586780",
+    "author": "maoitaru",
     "topic": "General",
-    "text": "aaaaaaaaaaaaaa",
+    "text": "Welcome to Gamezone! 👾",
     "likes": 0,
-    "likedBy": [],
+    "likedBy": [
+      "maoitaru",
+      "jiji",
+      "martinlarroza",
+      "biba"
+    ],
     "comments": [],
-    "date": "29/10/2026 - 13:58"
-  },
-  {
-    "id": "post-1793278359915",
-    "author": "jiji",
-    "topic": "Guides",
-    "text": "aaaaaaaaaaaaaaaaaaa",
-    "likes": 0,
-    "likedBy": [],
-    "comments": [],
-    "date": "29/10/2026 - 13:52"
-  },
-  {
-    "id": "post-1793277845127",
-    "author": "jiji",
-    "topic": "Guides",
-    "text": "aaaa",
-    "likes": 0,
-    "likedBy": [],
-    "comments": [],
-    "date": "29/10/2026 - 13:44"
+    "date": "30/10/2026 - 10:29"
   }
 ]
