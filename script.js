@@ -289,7 +289,7 @@ library.forEach(game => {
                 libraryContainer.appendChild(card);
             });
         } catch (err) {
-            console.error("Errore caricamento libreria:", err);
+            console.error("Error loading library", err);
         }
     }
 
@@ -357,7 +357,7 @@ if (storeLink) storeLink.addEventListener('click', (e) => { e.preventDefault(); 
                 gamesCount = library.length;
                 document.getElementById('profile-games-count').textContent = gamesCount;
             } catch (err) {
-                console.error("Errore caricamento giochi profilo:", err);
+                console.error("Error loading profile games:", err);
             }
 
             try {
@@ -367,7 +367,7 @@ if (storeLink) storeLink.addEventListener('click', (e) => { e.preventDefault(); 
                 postsCount = userPosts.length;
                 document.getElementById('profile-posts-count').textContent = postsCount;
             } catch (err) {
-                console.error("Errore caricamento post profilo:", err);
+                console.error("Error loading profile posts:", err);
             }
 
             // Calcolo dinamico livello ed XP basato su giochi e post
@@ -490,7 +490,7 @@ if (storeLink) storeLink.addEventListener('click', (e) => { e.preventDefault(); 
             ticketsContainer.appendChild(table);
 
         } catch (err) {
-            console.error("Errore caricamento ticket:", err);
+            console.error("Error loading ticket:", err);
             ticketsContainer.innerHTML = `<p style="color: #ff4d4d;">Error loading support tickets from server.</p>`;
         }
     }
@@ -579,7 +579,7 @@ if (storeLink) storeLink.addEventListener('click', (e) => { e.preventDefault(); 
                 const library = await libRes.json();
                 document.getElementById('profile-games-count').textContent = library.length;
             } catch (err) {
-                console.error("Errore caricamento giochi profilo:", err);
+                console.error("Error loading profile games:", err);
             }
 
             try {
@@ -588,7 +588,7 @@ if (storeLink) storeLink.addEventListener('click', (e) => { e.preventDefault(); 
                 const userPosts = posts.filter(p => p.author === loggedUser);
                 document.getElementById('profile-posts-count').textContent = userPosts.length;
             } catch (err) {
-                console.error("Errore caricamento post profilo:", err);
+                console.error("Error loading profile posts", err);
             }
         });
     }

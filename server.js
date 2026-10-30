@@ -128,7 +128,7 @@ app.post('/api/library/add', (req, res) => {
     const users = getUsers();
     const user = users.find(u => u.username === username);
 
-    if (!user) return res.status(404).json({ success: false, message: 'Utente non trovato' });
+    if (!user) return res.status(404).json({ success: false, message: 'User not found'});
 
     if (!user.library) user.library = [];
     const exists = user.library.some(g => g.title === game.title);
@@ -296,7 +296,7 @@ app.post('/api/support', (req, res) => {
     tickets.push(newTicket);
     saveSupportTickets(tickets);
 
-    console.log(`📩 Nuovo ticket di supporto salvato: ${newTicket.ticketId}`);
+    console.log(`📩 New support ticket saved: ${newTicket.ticketId}`);
     res.json({ success: true, ticketId: newTicket.ticketId });
 });
 
