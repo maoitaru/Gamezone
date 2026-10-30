@@ -374,7 +374,7 @@ if (storeLink) storeLink.addEventListener('click', (e) => { e.preventDefault(); 
         });
     }
 
-    // --- FUNZIONE PER CARICARE I TICKET ADMIN ---
+// --- FUNZIONE PER CARICARE E GESTIRE I TICKET ADMIN ---
     async function loadAdminTickets() {
         const ticketsContainer = document.getElementById('admin-tickets-container');
         if (!ticketsContainer) return;
@@ -401,6 +401,8 @@ if (storeLink) storeLink.addEventListener('click', (e) => { e.preventDefault(); 
                         <th style="padding: 10px;">User</th>
                         <th style="padding: 10px;">Issue Type</th>
                         <th style="padding: 10px;">Message</th>
+                        <th style="padding: 10px;">Status</th>
+                        <th style="padding: 10px; text-align: center;">Actions</th>
                     </tr>
                 </thead>
                 <tbody id="tickets-table-body"></tbody>
@@ -409,14 +411,71 @@ if (storeLink) storeLink.addEventListener('click', (e) => { e.preventDefault(); 
             const tbody = table.querySelector('#tickets-table-body');
 
             tickets.forEach(ticket => {
+                const currentStatus = ticket.status || 'Pending';
+                
                 const tr = document.createElement('tr');
                 tr.style.borderBottom = "1px solid #1b2838";
                 tr.innerHTML = `
                     <td style="padding: 10px; color: #8f98a0; font-family: monospace;">${ticket.ticketId || ticket.id || 'N/A'}</td>
                     <td style="padding: 10px; color: #66c0f4; font-weight: bold;">${ticket.username}</td>
                     <td style="padding: 10px;">${ticket.issueType}</td>
-                    <td style="padding: 10px; color: #c7d5e0; max-width: 300px; word-break: break-word;">${ticket.message}</td>
+                    <td style="padding: 10px; color: #c7d5e0; max-width: 200px; word-break: break-word;">${ticket.message}</td>
+                    <td style="padding: 10px;">
+                        <select class="status-select" data-id="${ticket.ticketId}" style="background-color: #10141b; color: #c7d5e0; border: 1px solid #2a475e; padding: 4px 8px; border-radius: 4px; font-weight: bold;">
+                            <option value="Pending" ${currentStatus === 'Pending' ? 'selected' : ''}>⏳ Pending</option>
+                            <option value="In Progress" ${currentStatus === 'In Progress' ? 'selected' : ''}>🛠️ In Progress</option>
+                            <option value="Resolved" ${currentStatus === 'Resolved' ? 'selected' : ''}>✅ Resolved</option>
+                        </select>
+                    </td>
+                    <td style="padding: 10px; text-align: center;">
+                        <button type="button" class="delete-ticket-btn" data-id="${ticket.ticketId}" style="background-color: #3b1d1d; border: 1px solid #ff4d4d; color: #ff4d4d; padding: 6px 10px; border-radius: 4px; cursor: pointer; font-weight: bold;" title="Delete Ticket">🗑️</button>
+                    </td>
                 `;
+
+                // Gestore cambio stato
+                tr.querySelector('.status-select').addEventListener('change', async (e) => {
+                    const newStatus = e.target.value;
+                    try {
+                        const statusRes = await fetch('/api/support/status', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ ticketId: ticket.ticketId, newStatus })
+                        });
+                        const statusData = await statusRes.json();
+
+                        if (statusData.success) {
+                            showToast(`Ticket status updated to "${newStatus}"!`, "🔄");
+                        } else {
+                            showToast("Error updating status.", "❌");
+                        }
+                    } catch (err) {
+                        showToast("Server connection error!", "❌");
+                    }
+                });
+
+                // Gestore evento eliminazione
+                tr.querySelector('.delete-ticket-btn').addEventListener('click', async () => {
+                    if (confirm(`Are you sure you want to delete ticket ${ticket.ticketId}?`)) {
+                        try {
+                            const deleteRes = await fetch('/api/support/delete', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ ticketId: ticket.ticketId })
+                            });
+                            const deleteData = await deleteRes.json();
+
+                            if (deleteData.success) {
+                                showToast("Ticket deleted successfully!", "🗑️");
+                                loadAdminTickets();
+                            } else {
+                                showToast(deleteData.message || "Error deleting ticket.", "❌");
+                            }
+                        } catch (err) {
+                            showToast("Server connection error!", "❌");
+                        }
+                    }
+                });
+
                 tbody.appendChild(tr);
             });
 

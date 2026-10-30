@@ -1,24 +1,19 @@
 [
   {
-    "ticketId": "TICK-57591",
-    "username": "maoitaru",
-    "issueType": "Game won't launch / Crash",
-    "message": "aaaa",
-    "date": "2026-10-27T13:44:17.591Z"
-  },
-  {
     "ticketId": "TICK-47599",
     "username": "jiji",
     "issueType": "Game won't launch / Crash",
     "message": "hhhhh",
-    "date": "2026-10-27T13:50:47.599Z"
+    "date": "2026-10-27T13:50:47.599Z",
+    "status": "In Progress"
   },
   {
     "ticketId": "TICK-76790",
     "username": "jiji",
     "issueType": "Game won't launch / Crash",
     "message": "aaa",
-    "date": "2026-10-28T11:19:36.790Z"
+    "date": "2026-10-28T11:19:36.790Z",
+    "status": "Resolved"
   },
   {
     "ticketId": "TICK-87326",

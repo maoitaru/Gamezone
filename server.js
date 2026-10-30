@@ -331,3 +331,35 @@ app.get('/api/support/tickets', (req, res) => {
         }
     }
 });
+
+// --- API SUPPORTO: ELIMINA TICKET (ADMIN) ---
+app.post('/api/support/delete', (req, res) => {
+    const { ticketId } = req.body;
+    let tickets = getSupportTickets();
+    
+    const initialLength = tickets.length;
+    tickets = tickets.filter(t => t.ticketId !== ticketId);
+
+    if (tickets.length < initialLength) {
+        saveSupportTickets(tickets);
+        res.json({ success: true, message: "Ticket deleted successfully!" });
+    } else {
+        res.status(404).json({ success: false, message: "Ticket not found!" });
+    }
+});
+
+// --- API SUPPORTO: AGGIORNA STATO TICKET (ADMIN) ---
+app.post('/api/support/status', (req, res) => {
+    const { ticketId, newStatus } = req.body;
+    let tickets = getSupportTickets();
+    
+    const ticket = tickets.find(t => t.ticketId === ticketId);
+
+    if (ticket) {
+        ticket.status = newStatus;
+        saveSupportTickets(tickets);
+        res.json({ success: true, message: "Ticket status updated!" });
+    } else {
+        res.status(404).json({ success: false, message: "Ticket not found!" });
+    }
+});
