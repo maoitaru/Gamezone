@@ -1388,3 +1388,11 @@ header {
 .slider-dot.active {
     background-color: #66c0f4;
 }
+
+/* --- CORREZIONE DIMENSIONE PULSANTE BANNER VETRINA --- */
+.featured-banner-action .support-submit-btn,
+.featured-banner-action button {
+    width: auto !important;
+    padding: 8px 20px !important;
+    font-size: 0.9rem !important;
+}
