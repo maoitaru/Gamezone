@@ -128,7 +128,7 @@ app.post('/api/library/add', (req, res) => {
     const users = getUsers();
     const user = users.find(u => u.username === username);
 
-    if (!user) return res.status(404).json({ success: false, message: 'User not found'});
+    if (!user) return res.status(404).json({ success: false, message: 'User not found.'});
 
     if (!user.library) user.library = [];
     const exists = user.library.some(g => g.title === game.title);
@@ -318,11 +318,9 @@ app.listen(PORT, () => {
 
 // --- API SUPPORTO (ADMIN) ---
 app.get('/api/support/tickets', (req, res) => {
-    // Supponendo che tu abbia una funzione o un modo per leggere support.json
     if (typeof getSupportTickets === 'function') {
         res.json(getSupportTickets());
     } else {
-        // Fallback per leggere direttamente il file se non usi una funzione helper dedicata
         try {
             const data = fs.readFileSync(path.join(__dirname, 'support.json'), 'utf8');
             res.json(JSON.parse(data));
