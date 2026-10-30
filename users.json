@@ -34,7 +34,7 @@
   },
   {
     "username": "jiji",
-    "password": "jiji1",
+    "password": "jiji",
     "library": [
       {
         "title": "Galactic Chronicles 1",
@@ -96,6 +96,61 @@
         "genre": "Simulator",
         "price": "$12.83",
         "image": "https://images.unsplash.com/photo-1612287230202-1ff1d85d1bdf?w=400"
+      }
+    ]
+  },
+  {
+    "username": "admin",
+    "password": "admin",
+    "failedAttempts": 0,
+    "library": []
+  },
+  {
+    "username": "admin2",
+    "password": "admin2",
+    "failedAttempts": 0,
+    "library": []
+  },
+  {
+    "username": "sisi",
+    "password": "sisi",
+    "failedAttempts": 0,
+    "library": []
+  },
+  {
+    "username": "baba",
+    "password": "baba1",
+    "failedAttempts": 0,
+    "library": []
+  },
+  {
+    "username": "rira",
+    "password": "rira",
+    "failedAttempts": 0,
+    "library": []
+  },
+  {
+    "username": "ripa",
+    "password": "ripa1",
+    "failedAttempts": 0,
+    "library": [
+      {
+        "title": "Galactic Warfare 2",
+        "genre": "Sci-Fi",
+        "price": "$22.95",
+        "image": "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=400"
+      },
+      {
+        "title": "Dark Chronicles 2",
+        "genre": "Action",
+        "price": "Free to Play",
+        "image": "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=400"
+      },
+      {
+        "title": "Dragon Empire 2",
+        "genre": "RPG",
+        "price": "Free to Play",
+        "image": "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=400"
       }
     ]
   }

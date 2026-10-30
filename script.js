@@ -141,6 +141,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
         }
+        if (resetNewPasswordInput && submitResetBtn) {
+            resetNewPasswordInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    submitResetBtn.click();
+                }
+            });
+        }
     }
 
     // --- GESTIONE REGISTRAZIONE (FETCH BACKEND) ---
@@ -165,8 +173,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 const data = await response.json();
 
                 if (data.success) {
-                    showToast('Registration successful! You can now sign in.');
-                    window.location.href = 'login.html';
+                    showToast('Registration successful! You can now sign in.', '🎉');
+                    setTimeout(() => {
+                        window.location.href = 'login.html';
+                    }, 800); // 1.5 secondi per leggere la notifica
                 } else {
                     registerErrorMessage.textContent = data.message || 'Error during registration.';
                     registerErrorMessage.style.color = '#ff4d4d';
@@ -215,13 +225,9 @@ const profileIconBtn = document.getElementById('profile-icon-btn');
         }
     }
 
-    // Mostra il link Admin solo se l'utente è "admin"
+// Mostra la voce "Admin Dashboard" a tutti gli utenti loggati
     if (goToAdminBtn) {
-        if (loggedUser === 'admin') {
-            goToAdminBtn.style.display = 'block';
-        } else {
-            goToAdminBtn.style.display = 'none';
-        }
+        goToAdminBtn.style.display = 'block';
     }
 
     // --- PARTE 3: GESTIONE LOGOUT ---
@@ -312,10 +318,12 @@ const profileIconBtn = document.getElementById('profile-icon-btn');
     const goToProfileBtn = document.getElementById('go-to-profile-btn');
     const goToAdminBtnDropdown = document.getElementById('go-to-admin-btn');
 
-    function hideAllViews() {
+function hideAllViews() {
         if (storeView) storeView.style.display = 'none';
         if (libraryView) libraryView.style.display = 'none';
         if (communityView) communityView.style.display = 'none';
+        if (profileView) profileView.style.display = 'none';
+        if (adminView) adminView.style.display = 'none'; // <-- Aggiunto qui!
         if (supportView) supportView.style.display = 'none';
     }
 
@@ -384,6 +392,16 @@ if (storeLink) storeLink.addEventListener('click', (e) => { e.preventDefault(); 
     const cancelAdminLoginBtn = document.getElementById('cancel-admin-login');
     const adminPasswordInput = document.getElementById('admin-password-input');
     const adminLoginError = document.getElementById('admin-login-error');
+
+    // --- INVIO CON IL TASTO ENTER PER ADMIN LOGIN ---
+    if (adminPasswordInput && submitAdminLoginBtn) {
+        adminPasswordInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                submitAdminLoginBtn.click(); // Simula il click sul pulsante Access
+            }
+        });
+    }
 
     if (goToAdminBtnDropdown) {
         goToAdminBtnDropdown.addEventListener('click', (e) => {
