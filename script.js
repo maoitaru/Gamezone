@@ -332,6 +332,48 @@ if (storeLink) storeLink.addEventListener('click', (e) => { e.preventDefault(); 
     if (communityLink) communityLink.addEventListener('click', (e) => { e.preventDefault(); hideAllViews(); communityView.style.display = 'block'; renderCommunityPosts(); });
     if (supportLink) supportLink.addEventListener('click', (e) => { e.preventDefault(); hideAllViews(); supportView.style.display = 'block'; });
 
+    if (goToProfileBtn) {
+        goToProfileBtn.addEventListener('click', async (e) => {
+            e.preventDefault();
+            hideAllViews();
+            if (profileView) profileView.style.display = 'block';
+
+            document.getElementById('profile-username').textContent = loggedUser || "Guest";
+
+            let gamesCount = 0;
+            let postsCount = 0;
+
+            try {
+                const libRes = await fetch(`/api/library/${loggedUser}`);
+                const library = await libRes.json();
+                gamesCount = library.length;
+                document.getElementById('profile-games-count').textContent = gamesCount;
+            } catch (err) {
+                console.error("Errore caricamento giochi profilo:", err);
+            }
+
+            try {
+                const postRes = await fetch('/api/posts');
+                const posts = await postRes.json();
+                const userPosts = posts.filter(p => p.author === loggedUser);
+                postsCount = userPosts.length;
+                document.getElementById('profile-posts-count').textContent = postsCount;
+            } catch (err) {
+                console.error("Errore caricamento post profilo:", err);
+            }
+
+            // Calcolo dinamico livello ed XP basato su giochi e post
+            const totalXp = (gamesCount * 100) + (postsCount * 50) + 150; // Bonus base
+            const level = Math.floor(totalXp / 300) + 1;
+            const currentXpInLevel = totalXp % 300;
+
+            document.getElementById('profile-level').textContent = level;
+            document.getElementById('profile-xp-text').textContent = `${currentXpInLevel} / 300 XP`;
+            const xpPercentage = (currentXpInLevel / 300) * 100;
+            document.getElementById('profile-xp-bar').style.width = `${xpPercentage}%`;
+        });
+    }
+
     // --- FUNZIONE PER CARICARE I TICKET ADMIN ---
     async function loadAdminTickets() {
         const ticketsContainer = document.getElementById('admin-tickets-container');

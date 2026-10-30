@@ -154,7 +154,7 @@
             </section>
         </div>
 
-        <!-- VISTA PROFILE -->
+<!-- VISTA PROFILE -->
         <div id="profile-view" class="view-section" style="display: none;">
             <section class="profile-wrapper">
                 <h2>User Profile</h2>
@@ -165,13 +165,37 @@
                         <div class="profile-avatar">👤</div>
                         <div>
                             <h3 id="profile-username" class="profile-username-title">Gamer</h3>
-                            <p class="profile-member-text">Member of GameZone</p>
+                            <p class="profile-member-text">Member of GameZone • <span class="profile-status-online">🟢 Online</span></p>
+                        </div>
+                    </div>
+
+                    <!-- Barra di Livello ed XP -->
+                    <div class="profile-level-section">
+                        <div class="profile-level-info">
+                            <span>Level <strong id="profile-level">5</strong> Gamer</span>
+                            <span id="profile-xp-text">350 / 500 XP</span>
+                        </div>
+                        <div class="profile-xp-bar-container">
+                            <div id="profile-xp-bar" class="profile-xp-bar-fill"></div>
                         </div>
                     </div>
                     
+                    <!-- Statistiche e Trofei -->
                     <div class="profile-stats">
                         <p class="profile-stat-item">🎮 Games in Library: <strong id="profile-games-count" class="profile-stat-strong">0</strong></p>
                         <p class="profile-stat-item">💬 Community Posts: <strong id="profile-posts-count" class="profile-stat-strong">0</strong></p>
+                        <p class="profile-stat-item">🏆 Trofei Sbloccati: <strong id="profile-trophies-count" class="profile-stat-strong">2 / 4</strong></p>
+                    </div>
+
+                    <!-- Vetrina Badge & Trofei -->
+                    <div class="profile-badges-showcase">
+                        <h4>🏆 Badge & Achievements</h4>
+                        <div class="badges-grid">
+                            <div class="badge-item unlocked" title="Primo Accesso - Benvenuto su GameZone!">🚀</div>
+                            <div class="badge-item unlocked" title="Collezionista - Possiedi almeno 1 gioco">🎮</div>
+                            <div class="badge-item locked" title="Social Star - Crea 5 post nella community">💬</div>
+                            <div class="badge-item locked" title="Veterano - Raggiungi il livello 10">⭐</div>
+                        </div>
                     </div>
                 </div>
             </section>

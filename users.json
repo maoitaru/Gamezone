@@ -151,6 +151,24 @@
         "genre": "RPG",
         "price": "Free to Play",
         "image": "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=400"
+      },
+      {
+        "title": "Shadow Odyssey 3",
+        "genre": "Action",
+        "price": "Free to Play",
+        "image": "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=400"
+      },
+      {
+        "title": "Star Valhalla 2",
+        "genre": "Simulator",
+        "price": "$22.34",
+        "image": "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=400"
+      },
+      {
+        "title": "Dark Chronicles 3",
+        "genre": "Simulator",
+        "price": "$11.71",
+        "image": "https://images.unsplash.com/photo-1612287230202-1ff1d85d1bdf?w=400"
       }
     ]
   }

@@ -1036,3 +1036,98 @@ footer {
     margin-bottom: 10px;
     display: none;
 }
+
+/* --- STILI AVANZATI PER IL PROFILO --- */
+.profile-wrapper {
+    max-width: 700px;
+    margin: 0; /* Sposta tutto a sinistra, allineato con il resto della pagina */
+}
+
+.profile-card-box {
+    background-color: #1b2838;
+    border: 1px solid #2a475e;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.profile-status-online {
+    color: #57cbde;
+    font-weight: bold;
+}
+
+.profile-level-section {
+    margin: 20px 0;
+    background-color: #10141b;
+    padding: 12px;
+    border-radius: 6px;
+    border: 1px solid #2a475e;
+}
+
+.profile-level-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    color: #c7d5e0;
+    margin-bottom: 8px;
+}
+
+.profile-xp-bar-container {
+    width: 100%;
+    height: 8px;
+    background-color: #2a475e;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.profile-xp-bar-fill {
+    width: 70%; /* Dinamico o fisso per ora */
+    height: 100%;
+    background: linear-gradient(to right, #47bfff 0%, #66c0f4 100%);
+    border-radius: 4px;
+}
+
+.profile-badges-showcase {
+    margin-top: 20px;
+    border-top: 1px solid #2a475e;
+    padding-top: 15px;
+}
+
+.profile-badges-showcase h4 {
+    color: #ffffff;
+    font-size: 1rem;
+    margin-bottom: 12px;
+}
+
+.badges-grid {
+    display: flex;
+    gap: 12px;
+}
+
+.badge-item {
+    width: 45px;
+    height: 45px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    cursor: help;
+    transition: transform 0.2s;
+}
+
+.badge-item.unlocked {
+    background-color: #2a475e;
+    border: 1px solid #66c0f4;
+}
+
+.badge-item.locked {
+    background-color: #10141b;
+    border: 1px solid #323f4d;
+    opacity: 0.4;
+    filter: grayscale(100%);
+}
+
+.badge-item:hover {
+    transform: scale(1.1);
+}
