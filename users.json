@@ -65,6 +65,12 @@
         "genre": "Sci-Fi",
         "price": "$52.63",
         "image": "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=400"
+      },
+      {
+        "title": "Retro Valhalla 1",
+        "genre": "Action",
+        "price": "$12.38",
+        "image": "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=400"
       }
     ],
     "failedAttempts": 0

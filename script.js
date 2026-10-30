@@ -256,18 +256,26 @@ const profileIconBtn = document.getElementById('profile-icon-btn');
                 return;
             }
 
-            library.forEach(game => {
+library.forEach(game => {
                 const card = document.createElement('article');
                 card.className = 'game-card';
                 card.innerHTML = `
-                    <div class="game-thumbnail" style="background: url('${game.image}') center/cover; height: 140px; border-radius: 4px;"></div>
-                    <h4 style="margin-top: 10px;">${game.title}</h4>
+                    <div class="game-thumbnail clickable-thumbnail" style="background: url('${game.image}') center/cover; height: 140px; border-radius: 4px; cursor: pointer;" title="Click for details"></div>
+                    <h4 class="clickable-title" style="margin-top: 10px; cursor: pointer;" title="Click for details">${game.title}</h4>
                     <span class="price" style="color: #66c0f4;">Owned</span>
                     <div style="display: flex; gap: 10px; margin-top: 5px;">
                         <button type="button" style="flex: 1; background-color: #2a475e; border: 1px solid #66c0f4; color: #66c0f4; cursor: pointer; padding: 8px; border-radius: 4px; font-weight: bold;">Play</button>
                         <button type="button" class="remove-btn" style="background-color: #3b1d1d; border: 1px solid #ff4d4d; color: #ff4d4d; cursor: pointer; padding: 8px 12px; border-radius: 4px; font-weight: bold;" title="Remove">🗑️</button>
                     </div>
                 `;
+
+                // --- RENDI CLICCABILE ANCHE DALLA LIBRERIA ---
+                const openDetails = () => {
+                    openGameDetailModal(game);
+                };
+                card.querySelector('.clickable-thumbnail').addEventListener('click', openDetails);
+                card.querySelector('.clickable-title').addEventListener('click', openDetails);
+                // ---------------------------------------------
 
                 card.querySelector('.remove-btn').addEventListener('click', async () => {
                     await fetch('/api/library/remove', {
@@ -604,7 +612,7 @@ if (storeLink) storeLink.addEventListener('click', (e) => { e.preventDefault(); 
     function getRandomElement(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
     function getRandomPrice() { return (Math.random() < 0.2) ? "Free to Play" : `$${(Math.random() * 50 + 4.99).toFixed(2)}`; }
 
-    function renderStoreGames(games) {
+function renderStoreGames(games) {
         if (!dynamicGameList) return;
         dynamicGameList.innerHTML = "";
 
@@ -617,12 +625,22 @@ if (storeLink) storeLink.addEventListener('click', (e) => { e.preventDefault(); 
             const card = document.createElement('article');
             card.className = 'game-card';
             card.innerHTML = `
-                <div class="game-thumbnail" style="background: url('${game.image}') center/cover; height: 140px; border-radius: 4px;"></div>
-                <h4 style="margin-top: 10px;">${game.title}</h4>
+                <div class="game-thumbnail clickable-thumbnail" style="background: url('${game.image}') center/cover; height: 140px; border-radius: 4px; cursor: pointer;" title="Click for details"></div>
+                <h4 class="clickable-title" style="margin-top: 10px; cursor: pointer;" title="Click for details">${game.title}</h4>
                 <p style="font-size: 0.8rem; color: #8f98a0; margin: 2px 0;">Genre: ${game.genre}</p>
                 <span class="price">${game.price}</span>
                 <button type="button" class="buy-btn" style="padding: 8px; background-color: #5c7e10; border: none; border-radius: 4px; color: white; font-weight: bold; cursor: pointer;">Buy Now</button>
             `;
+
+            // --- AGGIUNGI QUESTO BLOCCO PER APRIRE LA MODALE ---
+            const openDetails = () => {
+                openGameDetailModal(game);
+            };
+
+            card.querySelector('.clickable-thumbnail').addEventListener('click', openDetails);
+            card.querySelector('.clickable-title').addEventListener('click', openDetails);
+            // --------------------------------------------------
+
             card.querySelector('.buy-btn').addEventListener('click', () => addToLibrary(game));
             dynamicGameList.appendChild(card);
         });
@@ -979,4 +997,110 @@ if (storeLink) storeLink.addEventListener('click', (e) => { e.preventDefault(); 
         });
     });
 
+// --- GESTIONE MODALE DETTAGLIO GIOCO ---
+    const gameDetailModal = document.getElementById('game-detail-modal');
+    const closeGameModalBtn = document.getElementById('close-game-modal');
+    const modalGameTitle = document.getElementById('modal-game-title');
+    const modalGameThumbnail = document.getElementById('modal-game-thumbnail');
+    const modalGameGenre = document.getElementById('modal-game-genre');
+    const modalGameDesc = document.getElementById('modal-game-desc');
+    const modalGamePrice = document.getElementById('modal-game-price');
+    const modalBuyBtn = document.getElementById('modal-buy-btn');
+    const modalReviewsList = document.getElementById('modal-reviews-list');
+    const modalReviewInput = document.getElementById('modal-review-input');
+    const modalSubmitReview = document.getElementById('modal-submit-review');
+
+    let currentGameInModal = null;
+    let gameReviewsStorage = {};
+
+    function openGameDetailModal(game) {
+        currentGameInModal = game;
+        if (!gameDetailModal) return;
+
+        modalGameTitle.textContent = game.title;
+        modalGameThumbnail.style.backgroundImage = `url('${game.image}')`;
+        modalGameGenre.textContent = `Genre: ${game.genre}`;
+        modalGameDesc.textContent = `Explore the immersive universe of ${game.title}. Featuring stunning graphics, epic sound design, and endless hours of ${game.genre.toLowerCase()} gameplay tailored for true gamers.`;
+        modalGamePrice.textContent = game.price;
+
+        renderModalReviews(game.title);
+
+        gameDetailModal.style.display = 'flex';
+    }
+
+    if (closeGameModalBtn && gameDetailModal) {
+        closeGameModalBtn.addEventListener('click', () => {
+            gameDetailModal.style.display = 'none';
+        });
+    }
+
+    if (modalBuyBtn) {
+        modalBuyBtn.addEventListener('click', () => {
+            if (currentGameInModal) {
+                addToLibrary(currentGameInModal);
+                gameDetailModal.style.display = 'none';
+            }
+        });
+    }
+
+    function renderModalReviews(gameTitle) {
+        if (!modalReviewsList) return;
+        modalReviewsList.innerHTML = "";
+
+        if (!gameReviewsStorage[gameTitle]) {
+            gameReviewsStorage[gameTitle] = [
+                { author: "ProGamer99", text: "Amazing gameplay, totally worth it! 🔥" },
+                { author: "SteamFan", text: "Graphics are insane. Highly recommended." }
+            ];
+        }
+
+        const reviews = gameReviewsStorage[gameTitle];
+        reviews.forEach(rev => {
+            const div = document.createElement('div');
+            div.className = 'game-modal-review-item';
+            div.innerHTML = `<strong>${rev.author}:</strong> <span>${rev.text}</span>`;
+            modalReviewsList.appendChild(div);
+        });
+    }
+
+    if (modalSubmitReview) {
+        modalSubmitReview.addEventListener('click', () => {
+            const text = modalReviewInput.value.trim();
+            if (!text || !currentGameInModal) return;
+
+            if (!gameReviewsStorage[currentGameInModal.title]) {
+                gameReviewsStorage[currentGameInModal.title] = [];
+            }
+
+            gameReviewsStorage[currentGameInModal.title].push({
+                author: loggedUser || "Gamer",
+                text: text
+            });
+
+            modalReviewInput.value = "";
+            renderModalReviews(currentGameInModal.title);
+            showToast("Review submitted!", "💬");
+        });
+    }
+// --- GESTIONE EMOJI NELLA MODALE DETTAGLIO GIOCO ---
+    const modalEmojiBtn = document.getElementById('modal-emoji-toggle-btn');
+    const modalEmojiPopup = document.getElementById('modal-emoji-popup');
+
+    if (modalEmojiBtn && modalEmojiPopup && modalReviewInput) {
+        modalEmojiBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            document.querySelectorAll('.emoji-popup').forEach(p => {
+                if (p !== modalEmojiPopup) p.classList.remove('active');
+            });
+            modalEmojiPopup.classList.toggle('active');
+        });
+
+        modalEmojiPopup.querySelectorAll('.emoji-item').forEach(item => {
+            item.addEventListener('click', () => {
+                modalReviewInput.value += item.textContent;
+                modalEmojiPopup.classList.remove('active');
+                modalReviewInput.focus();
+            });
+        });
+    }
 });

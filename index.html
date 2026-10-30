@@ -264,6 +264,56 @@
     </div>
 </div>
 
+<!-- MODALE DETTAGLIO GIOCO -->
+<div id="game-detail-modal" class="modal-overlay">
+    <div class="modal-box game-detail-modal-box">
+        <div class="game-modal-header">
+            <h3 id="modal-game-title" class="modal-title">Titolo Gioco</h3>
+            <button type="button" id="close-game-modal" class="game-modal-close-btn">✕</button>
+        </div>
+        
+        <div id="modal-game-thumbnail" class="game-modal-thumb"></div>
+        
+        <p id="modal-game-genre" class="game-modal-genre">Genere: Action</p>
+        <p id="modal-game-desc" class="game-modal-desc">Descrizione immersiva del gioco generato dinamicamente.</p>
+        
+        <div class="game-modal-footer">
+            <span class="price" id="modal-game-price">$29.99</span>
+            <button type="button" id="modal-buy-btn" class="support-submit-btn game-modal-buy-btn">Add to Library</button>
+        </div>
+
+<!-- Sezione Recensioni Utenti nella Modale -->
+        <div class="game-modal-reviews-section">
+            <h4 class="game-modal-reviews-title">User Reviews</h4>
+            <div id="modal-reviews-list" class="game-modal-reviews-list">
+                <!-- Recensioni dinamiche -->
+            </div>
+            <div class="game-modal-review-input-group">
+                <input type="text" id="modal-review-input" placeholder="Write a review..." class="game-modal-review-input">
+                
+                <!-- PULSANTE ED EMOJI POPUP PER LE RECENSIONI -->
+                <div class="emoji-picker-container">
+                    <button type="button" class="emoji-toggle-btn game-modal-emoji-btn" id="modal-emoji-toggle-btn" title="Add Emoji">😊</button>
+                    <div class="emoji-popup" id="modal-emoji-popup">
+                        <button type="button" class="emoji-item">🎮</button>
+                        <button type="button" class="emoji-item">🔥</button>
+                        <button type="button" class="emoji-item">🏆</button>
+                        <button type="button" class="emoji-item">🚀</button>
+                        <button type="button" class="emoji-item">👍</button>
+                        <button type="button" class="emoji-item">😎</button>
+                        <button type="button" class="emoji-item">👾</button>
+                        <button type="button" class="emoji-item">⭐</button>
+                        <button type="button" class="emoji-item">💯</button>
+                        <button type="button" class="emoji-item">💀</button>
+                    </div>
+                </div>
+
+                <button type="button" id="modal-submit-review" class="game-modal-review-submit-btn">Post</button>
+            </div>
+        </div>
+    </div>
+</div>
+
     <!-- 4. FOOTER -->
     <footer>
         <p>&copy; 2026 GameZone Corporation. All rights reserved. All trademarks are property of their respective owners.</p>

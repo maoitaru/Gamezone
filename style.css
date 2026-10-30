@@ -1131,3 +1131,166 @@ footer {
 .badge-item:hover {
     transform: scale(1.1);
 }
+
+/* --- STILI MODALE DETTAGLIO GIOCO --- */
+.game-detail-modal-box {
+    width: 550px;
+    max-width: 95%;
+}
+
+.game-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.game-modal-close-btn {
+    background: transparent;
+    border: none;
+    color: #8f98a0;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.game-modal-thumb {
+    height: 200px;
+    border-radius: 6px;
+    background-size: cover;
+    background-position: center;
+    margin-bottom: 15px;
+}
+
+.game-modal-genre {
+    font-size: 0.85rem;
+    color: #66c0f4;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.game-modal-desc {
+    color: #c7d5e0;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    margin-bottom: 15px;
+}
+
+.game-modal-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-top: 1px solid #2a475e;
+    padding-top: 15px;
+}
+
+.game-modal-footer .price {
+    font-size: 1.3rem;
+}
+
+.game-modal-buy-btn {
+    width: auto !important;
+    padding: 10px 20px !important;
+}
+
+.game-modal-reviews-section {
+    border-top: 1px solid #2a475e;
+    padding-top: 15px;
+}
+
+.game-modal-reviews-title {
+    color: white;
+    font-size: 0.95rem;
+    margin-bottom: 10px;
+}
+
+.game-modal-reviews-list {
+    max-height: 120px;
+    overflow-y: auto;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.game-modal-review-item {
+    background: #10141b;
+    padding: 6px 10px;
+    border-radius: 3px;
+    font-size: 0.8rem;
+}
+
+.game-modal-review-item strong {
+    color: #66c0f4;
+}
+
+.game-modal-review-item span {
+    color: #c7d5e0;
+}
+
+.game-modal-review-input-group {
+    display: flex;
+    gap: 8px;
+}
+
+.game-modal-review-input {
+    flex: 1;
+    background: #10141b;
+    border: 1px solid #2a475e;
+    padding: 8px;
+    color: white;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    outline: none;
+}
+
+.game-modal-review-input:focus {
+    border-color: #66c0f4;
+}
+
+.game-modal-review-submit-btn {
+    background: #2a475e;
+    color: #66c0f4;
+    border: 1px solid #66c0f4;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: background 0.2s, color 0.2s;
+}
+
+.game-modal-review-submit-btn:hover {
+    background: #66c0f4;
+    color: #10141b;
+}
+
+/* --- FIX RESPONSIVITÀ HEADER --- */
+header, .header-container, nav {
+    flex-wrap: wrap;
+}
+
+/* Assicura che l'header gestisca lo spazio a seconda della larghezza dello schermo */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    gap: 15px;
+}
+
+/* Media query per schermi più stretti (es. sotto i 768px) */
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    
+    nav {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+}
